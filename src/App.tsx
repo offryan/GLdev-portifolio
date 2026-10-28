@@ -1,5 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 import { BarraProgresso } from '@/componentes/estrutura/BarraProgresso/BarraProgresso';
+import { BotaoVoltarTopo } from '@/componentes/estrutura/BotaoVoltarTopo/BotaoVoltarTopo';
 import { MenuSuperior } from '@/componentes/estrutura/MenuSuperior/MenuSuperior';
 import { Rodape } from '@/componentes/estrutura/Rodape/Rodape';
 import { FundoAnimado } from '@/componentes/fundo/FundoAnimado/FundoAnimado';
@@ -24,6 +25,7 @@ export function App() {
         </Routes>
       </main>
       <Rodape />
+      <BotaoVoltarTopo />
     </>
   );
 }
