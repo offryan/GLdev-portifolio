@@ -1,0 +1,57 @@
+.projetos {
+  padding: 140px 0;
+}
+
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 40px;
+}
+
+.filtros button {
+  position: relative;
+  padding: 9px 18px;
+  border-radius: 999px;
+  border: 1px solid var(--cor-borda);
+  background: var(--cor-superficie);
+  font-size: 0.88rem;
+  color: var(--cor-texto-suave);
+  transition: color var(--transicao), border-color var(--transicao);
+}
+
+.filtros button:hover {
+  color: var(--cor-texto);
+}
+
+.filtros .filtroAtivo {
+  color: #05060d;
+  border-color: transparent;
+}
+
+.fundoFiltro {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(110deg, #c4b5fd, #67e8f9 50%, #6ee7b7);
+}
+
+.rotuloFiltro {
+  position: relative;
+  font-weight: 600;
+}
+
+.grade {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+}
+
+@media (max-width: 860px) {
+  .projetos {
+    padding: 100px 0;
+  }
+  .grade {
+    grid-template-columns: 1fr;
+  }
+}

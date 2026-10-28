@@ -1,0 +1,137 @@
+.janela {
+  position: relative;
+  border-radius: var(--raio);
+  background: rgba(10, 11, 22, 0.72);
+  border: 1px solid var(--cor-borda-forte);
+  backdrop-filter: blur(20px);
+  box-shadow: var(--sombra), 0 0 80px -20px rgba(139, 92, 246, 0.5);
+  overflow: hidden;
+  animation: flutuar 7s ease-in-out infinite;
+}
+
+.janela::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: var(--gradiente-borda);
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.barraTitulo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--cor-borda);
+}
+
+.bolinha {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #ff5f57;
+}
+
+.bolinha:nth-child(2) {
+  background: #febc2e;
+}
+
+.bolinha:nth-child(3) {
+  background: #28c840;
+}
+
+.nomeArquivo {
+  margin-left: 10px;
+  font-family: var(--fonte-mono);
+  font-size: 0.75rem;
+  color: var(--cor-texto-fraco);
+}
+
+.corpo {
+  padding: 20px 22px 8px;
+  font-family: var(--fonte-mono);
+  font-size: 0.82rem;
+  min-height: 210px;
+}
+
+.linha {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 3px 0;
+  color: var(--cor-texto-suave);
+}
+
+.comando {
+  color: var(--cor-texto);
+  margin-bottom: 6px;
+}
+
+.sucesso {
+  margin-top: 6px;
+  color: var(--cor-verde);
+  font-weight: 600;
+}
+
+.check {
+  color: var(--cor-ciano);
+}
+
+.cursor {
+  display: inline-block;
+  width: 9px;
+  height: 17px;
+  margin-top: 4px;
+  background: var(--cor-ciano);
+  animation: piscar 1s steps(1) infinite;
+}
+
+.grafico {
+  margin: 8px 22px 22px;
+  padding: 16px;
+  border-radius: var(--raio-pequeno);
+  background: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+}
+
+.legenda {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: var(--cor-texto-suave);
+  margin-bottom: 12px;
+}
+
+.legenda strong {
+  color: var(--cor-verde);
+}
+
+.barras {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  height: 90px;
+}
+
+.barra {
+  flex: 1;
+  border-radius: 6px 6px 2px 2px;
+  background: linear-gradient(to top, rgba(139, 92, 246, 0.6), var(--cor-ciano));
+  box-shadow: 0 0 18px -4px rgba(34, 211, 238, 0.6);
+}
+
+@keyframes piscar {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes flutuar {
+  50% {
+    transform: translateY(-12px);
+  }
+}

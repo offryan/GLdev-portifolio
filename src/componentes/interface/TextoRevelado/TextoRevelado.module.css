@@ -1,0 +1,11 @@
+.texto {
+  font-family: var(--fonte-titulo);
+  font-size: clamp(1.5rem, 3.4vw, 2.6rem);
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+}
+
+.palavra {
+  display: inline;
+}
