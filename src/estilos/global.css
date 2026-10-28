@@ -68,6 +68,11 @@ main {
   overflow-x: clip;
 }
 
+/* O conteúdo principal recebe foco pelo link "Pular para o conteúdo", sem contorno */
+main:focus {
+  outline: none;
+}
+
 section[id] {
   scroll-margin-top: var(--altura-menu);
 }

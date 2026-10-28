@@ -9,23 +9,35 @@ interface Particula {
   raio: number;
 }
 
-/** Manchas de luz em movimento ("aurora"). Valores relativos ao tamanho da tela. */
-const AURORAS = [
-  { matiz: 262, tamanho: 0.62, velocidade: 0.00013, centroX: 0.18, centroY: 0.2, amplitude: 0.22 },
-  { matiz: 190, tamanho: 0.55, velocidade: 0.00017, centroX: 0.82, centroY: 0.3, amplitude: 0.2 },
-  { matiz: 160, tamanho: 0.5, velocidade: 0.00011, centroX: 0.6, centroY: 0.85, amplitude: 0.25 },
-  { matiz: 320, tamanho: 0.42, velocidade: 0.00015, centroX: 0.3, centroY: 0.75, amplitude: 0.18 },
-];
-
 const DISTANCIA_CONEXAO = 130;
 const RAIO_MOUSE = 180;
 
 /**
- * Fundo fixo do site: auroras coloridas + constelação de pontos conectados
- * que reage ao mouse. As cores mudam levemente conforme a página é rolada.
+ * Fundo fixo do site, em duas camadas:
+ * - auroras coloridas feitas em CSS (animadas pela placa de vídeo, sem pesar no processador);
+ * - constelação de pontos conectados em canvas, que reage ao mouse.
+ * As cores mudam levemente conforme a página é rolada.
  */
 export function FundoAnimado() {
+  const refFundo = useRef<HTMLDivElement>(null);
   const refCanvas = useRef<HTMLCanvasElement>(null);
+
+  // Muda o tom das auroras conforme a rolagem
+  useEffect(() => {
+    let agendado = false;
+    function atualizarMatiz() {
+      agendado = false;
+      const rolagemMaxima = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+      refFundo.current?.style.setProperty('--matiz', `${(window.scrollY / rolagemMaxima) * 70}deg`);
+    }
+    function aoRolar() {
+      if (agendado) return;
+      agendado = true;
+      requestAnimationFrame(atualizarMatiz);
+    }
+    window.addEventListener('scroll', aoRolar, { passive: true });
+    return () => window.removeEventListener('scroll', aoRolar);
+  }, []);
 
   useEffect(() => {
     const canvas = refCanvas.current;
@@ -36,8 +48,11 @@ export function FundoAnimado() {
     const mouse = { x: -9999, y: -9999 };
     let largura = 0;
     let altura = 0;
+    let intervaloQuadros = 1000 / 60;
     let particulas: Particula[] = [];
     let quadro = 0;
+    let ultimoQuadro = 0;
+    let iniciado = false;
 
     function redimensionar() {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -47,7 +62,11 @@ export function FundoAnimado() {
       canvas!.height = altura * dpr;
       ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-      const quantidade = Math.min(120, Math.floor((largura * altura) / 13000));
+      // Em telas pequenas: menos pontos e 30 quadros por segundo, para poupar bateria
+      const telaPequena = largura < 768;
+      intervaloQuadros = 1000 / (telaPequena ? 30 : 60);
+      const limite = telaPequena ? 40 : 110;
+      const quantidade = Math.min(limite, Math.floor((largura * altura) / 13000));
       particulas = Array.from({ length: quantidade }, () => ({
         x: Math.random() * largura,
         y: Math.random() * altura,
@@ -57,26 +76,7 @@ export function FundoAnimado() {
       }));
     }
 
-    function desenharAuroras(tempo: number, desvioMatiz: number) {
-      const maior = Math.max(largura, altura);
-      ctx!.globalCompositeOperation = 'lighter';
-      for (const aurora of AURORAS) {
-        const t = tempo * aurora.velocidade;
-        const x = (aurora.centroX + Math.sin(t) * aurora.amplitude) * largura;
-        const y = (aurora.centroY + Math.cos(t * 1.3) * aurora.amplitude) * altura;
-        const raio = aurora.tamanho * maior * (0.9 + Math.sin(t * 2) * 0.1);
-        const matiz = aurora.matiz + desvioMatiz;
-        const gradiente = ctx!.createRadialGradient(x, y, 0, x, y, raio);
-        gradiente.addColorStop(0, `hsla(${matiz}, 90%, 60%, 0.32)`);
-        gradiente.addColorStop(0.45, `hsla(${matiz}, 90%, 50%, 0.12)`);
-        gradiente.addColorStop(1, `hsla(${matiz}, 90%, 40%, 0)`);
-        ctx!.fillStyle = gradiente;
-        ctx!.fillRect(0, 0, largura, altura);
-      }
-      ctx!.globalCompositeOperation = 'source-over';
-    }
-
-    function desenharParticulas(desvioMatiz: number) {
+    function moverParticulas() {
       for (const p of particulas) {
         p.x += p.vx;
         p.y += p.vy;
@@ -95,16 +95,19 @@ export function FundoAnimado() {
           p.y += (dy / distancia) * forca;
         }
       }
+    }
 
-      const corLinha = 190 + desvioMatiz;
+    function desenharParticulas() {
+      ctx!.clearRect(0, 0, largura, altura);
+      ctx!.lineWidth = 1;
+
       for (let i = 0; i < particulas.length; i++) {
         const a = particulas[i];
         for (let j = i + 1; j < particulas.length; j++) {
           const b = particulas[j];
           const distancia = Math.hypot(a.x - b.x, a.y - b.y);
           if (distancia < DISTANCIA_CONEXAO) {
-            ctx!.strokeStyle = `hsla(${corLinha}, 90%, 70%, ${(1 - distancia / DISTANCIA_CONEXAO) * 0.22})`;
-            ctx!.lineWidth = 1;
+            ctx!.strokeStyle = `rgba(125, 220, 255, ${(1 - distancia / DISTANCIA_CONEXAO) * 0.22})`;
             ctx!.beginPath();
             ctx!.moveTo(a.x, a.y);
             ctx!.lineTo(b.x, b.y);
@@ -114,30 +117,37 @@ export function FundoAnimado() {
 
         const distanciaMouse = Math.hypot(a.x - mouse.x, a.y - mouse.y);
         if (distanciaMouse < RAIO_MOUSE * 1.3) {
-          ctx!.strokeStyle = `hsla(${corLinha + 60}, 90%, 75%, ${(1 - distanciaMouse / (RAIO_MOUSE * 1.3)) * 0.45})`;
+          ctx!.strokeStyle = `rgba(196, 181, 253, ${(1 - distanciaMouse / (RAIO_MOUSE * 1.3)) * 0.45})`;
           ctx!.beginPath();
           ctx!.moveTo(a.x, a.y);
           ctx!.lineTo(mouse.x, mouse.y);
           ctx!.stroke();
         }
-
-        ctx!.fillStyle = 'rgba(230, 240, 255, 0.75)';
-        ctx!.beginPath();
-        ctx!.arc(a.x, a.y, a.raio, 0, Math.PI * 2);
-        ctx!.fill();
       }
+
+      ctx!.fillStyle = 'rgba(230, 240, 255, 0.75)';
+      ctx!.beginPath();
+      for (const p of particulas) {
+        ctx!.moveTo(p.x + p.raio, p.y);
+        ctx!.arc(p.x, p.y, p.raio, 0, Math.PI * 2);
+      }
+      ctx!.fill();
     }
 
-    function desenhar(tempo: number) {
-      const rolagemMaxima = Math.max(1, document.documentElement.scrollHeight - altura);
-      const desvioMatiz = (window.scrollY / rolagemMaxima) * 70;
+    function animar(tempo: number) {
+      quadro = requestAnimationFrame(animar);
+      if (tempo - ultimoQuadro < intervaloQuadros) return;
+      ultimoQuadro = tempo;
+      moverParticulas();
+      desenharParticulas();
+    }
 
-      ctx!.fillStyle = '#05060d';
-      ctx!.fillRect(0, 0, largura, altura);
-      desenharAuroras(tempo, desvioMatiz);
-      desenharParticulas(desvioMatiz);
-
-      if (!movimentoReduzido) quadro = requestAnimationFrame(desenhar);
+    function iniciar() {
+      if (iniciado) return;
+      iniciado = true;
+      redimensionar();
+      if (movimentoReduzido) desenharParticulas();
+      else quadro = requestAnimationFrame(animar);
     }
 
     function aoMoverMouse(evento: PointerEvent) {
@@ -152,19 +162,28 @@ export function FundoAnimado() {
 
     function aoMudarVisibilidade() {
       cancelAnimationFrame(quadro);
-      if (!document.hidden) quadro = requestAnimationFrame(desenhar);
+      if (!document.hidden && iniciado && !movimentoReduzido) quadro = requestAnimationFrame(animar);
     }
 
-    redimensionar();
-    quadro = requestAnimationFrame(desenhar);
-    window.addEventListener('resize', redimensionar);
+    function aoRedimensionar() {
+      if (!iniciado) return;
+      redimensionar();
+      if (movimentoReduzido) desenharParticulas();
+    }
+
+    // A constelação só começa depois que a página terminou de carregar,
+    // para não disputar o processador com o primeiro desenho da tela
+    const aguardar = window.setTimeout(iniciar, 1200);
+
+    window.addEventListener('resize', aoRedimensionar);
     window.addEventListener('pointermove', aoMoverMouse);
     document.addEventListener('pointerleave', aoSairMouse);
     document.addEventListener('visibilitychange', aoMudarVisibilidade);
 
     return () => {
+      window.clearTimeout(aguardar);
       cancelAnimationFrame(quadro);
-      window.removeEventListener('resize', redimensionar);
+      window.removeEventListener('resize', aoRedimensionar);
       window.removeEventListener('pointermove', aoMoverMouse);
       document.removeEventListener('pointerleave', aoSairMouse);
       document.removeEventListener('visibilitychange', aoMudarVisibilidade);
@@ -172,7 +191,13 @@ export function FundoAnimado() {
   }, []);
 
   return (
-    <div className={styles.fundo} aria-hidden="true">
+    <div ref={refFundo} className={styles.fundo} aria-hidden="true">
+      <div className={styles.auroras}>
+        <span className={styles.aurora} />
+        <span className={styles.aurora} />
+        <span className={styles.aurora} />
+        <span className={styles.aurora} />
+      </div>
       <canvas ref={refCanvas} className={styles.canvas} />
       <div className={styles.grade} />
       <div className={styles.granulado} />

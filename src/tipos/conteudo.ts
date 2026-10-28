@@ -80,13 +80,38 @@ export type Visualizacao = { rotulo?: string } & (
   | { tipo: 'simulacao'; etapas: EtapaSimulacao[] }
 );
 
+/** Ícones disponíveis para as caixas do diagrama de fluxo. */
+export type IconeFluxo =
+  | 'api'
+  | 'banco'
+  | 'planilha'
+  | 'robo'
+  | 'email'
+  | 'painel'
+  | 'regras'
+  | 'arquivo'
+  | 'navegador'
+  | 'certificado'
+  | 'nuvem';
+
+/** Uma caixa do diagrama "como funciona" na página do projeto. */
+export interface EtapaFluxo {
+  titulo: string;
+  detalhe: string;
+  icone: IconeFluxo;
+}
+
 export interface Projeto {
   slug: string;
   titulo: string;
   categoria: string;
   ano?: string;
   resumo: string;
-  descricao: string[];
+  /** Estudo de caso: o problema, como foi resolvido e o que mudou. */
+  problema: string;
+  solucao: string[];
+  impacto: string;
+  fluxo: EtapaFluxo[];
   tecnologias: string[];
   resultados: { valor: string; rotulo: string }[];
   cores: [string, string];
