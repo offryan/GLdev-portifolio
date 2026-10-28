@@ -53,31 +53,38 @@ export interface Formacao {
   ano: string;
 }
 
-/** Demos interativas disponíveis (cada uma fica em `src/demos`). */
-export type IdDemo = 'painel-operacoes' | 'robo-faturamento' | 'previsao-demanda';
+export type LinguagemCodigo = 'Python' | 'SQL' | 'DAX' | 'Power Query (M)' | 'JavaScript' | 'Texto';
+
+/** Um passo da simulação de um robô: o que ele faz e o que registra no log. */
+export interface EtapaSimulacao {
+  nome: string;
+  inicio: string;
+  fim: string;
+}
 
 /**
- * Como o projeto será visualizado na página dele:
- * - site:    um site publicado (abre dentro de uma janela)
- * - powerbi: link "Publicar na Web" do Power BI
- * - video:   link do YouTube
- * - galeria: lista de imagens (prints)
- * - codigo:  trecho de código para leitura
- * - demo:    demonstração interativa feita dentro do próprio portfólio
+ * Formas de mostrar um projeto (cada uma vira uma aba na página do projeto):
+ * - site:      um site publicado (abre dentro de uma janela)
+ * - powerbi:   link "Publicar na Web" do Power BI
+ * - video:     link do YouTube
+ * - galeria:   lista de imagens (prints)
+ * - codigo:    arquivo de código guardado em public/projetos
+ * - simulacao: robô executando as etapas, passo a passo
  */
-export type Visualizacao =
+export type Visualizacao = { rotulo?: string } & (
   | { tipo: 'site'; url: string }
   | { tipo: 'powerbi'; url: string }
   | { tipo: 'video'; url: string }
   | { tipo: 'galeria'; imagens: { src: string; legenda: string }[] }
-  | { tipo: 'codigo'; linguagem: string; codigo: string }
-  | { tipo: 'demo'; demo: IdDemo };
+  | { tipo: 'codigo'; linguagem: LinguagemCodigo; arquivo: string }
+  | { tipo: 'simulacao'; etapas: EtapaSimulacao[] }
+);
 
 export interface Projeto {
   slug: string;
   titulo: string;
   categoria: string;
-  ano: string;
+  ano?: string;
   resumo: string;
   descricao: string[];
   tecnologias: string[];
@@ -85,5 +92,5 @@ export interface Projeto {
   cores: [string, string];
   capa?: string;
   links: { repositorio?: string; aoVivo?: string };
-  visualizacao: Visualizacao;
+  visualizacoes: Visualizacao[];
 }

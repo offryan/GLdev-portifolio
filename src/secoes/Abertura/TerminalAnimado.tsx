@@ -2,15 +2,15 @@ import { motion } from 'framer-motion';
 import styles from './TerminalAnimado.module.css';
 
 const LINHAS = [
-  { texto: '$ python gldev.py --pipeline', tipo: 'comando' },
-  { texto: '› conectando ao SAP Business One', tipo: 'ok' },
-  { texto: '› 1.248.392 registros tratados', tipo: 'ok' },
-  { texto: '› modelo star schema atualizado', tipo: 'ok' },
-  { texto: '› dashboard publicado no Power BI', tipo: 'ok' },
+  { texto: '$ python pipeline_vistorias.py', tipo: 'comando' },
+  { texto: '› solicitações sincronizadas via API', tipo: 'ok' },
+  { texto: '› SLA calculado em dias úteis', tipo: 'ok' },
+  { texto: '› Siscomex + Oracle consultados', tipo: 'ok' },
+  { texto: '› KPI Diário atualizado no Power BI', tipo: 'ok' },
   { texto: '✓ trabalho manual reduzido em 83%', tipo: 'sucesso' },
 ] as const;
 
-const BARRAS = [38, 62, 45, 80, 56, 92, 70, 100];
+const BARRAS = [72, 88, 80, 84, 78, 86, 90, 94];
 
 /** Cartão decorativo do topo: um "terminal" executando um pipeline de dados. */
 export function TerminalAnimado() {
@@ -46,8 +46,8 @@ export function TerminalAnimado() {
 
       <div className={styles.grafico}>
         <div className={styles.legenda}>
-          <span>Produtividade</span>
-          <strong>+41%</strong>
+          <span>Conferência no prazo</span>
+          <strong>86,2%</strong>
         </div>
         <div className={styles.barras}>
           {BARRAS.map((altura, indice) => (

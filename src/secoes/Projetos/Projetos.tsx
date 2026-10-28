@@ -20,7 +20,7 @@ export function Projetos() {
           rotulo="Projetos"
           titulo="Teste, explore,"
           destaque="visualize."
-          subtitulo="Cada projeto tem uma página própria com demonstração ao vivo — clique e experimente."
+          subtitulo="Painéis ao vivo, simulações dos robôs e o código de cada projeto — clique e explore."
         />
 
         <div className={styles.filtros} role="tablist" aria-label="Filtrar projetos por categoria">

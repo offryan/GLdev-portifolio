@@ -2,7 +2,9 @@
 
 Portfólio de **George Lucas**, analista de dados e especialista em automação, feito para o domínio **gldev.com**.
 
-Cada projeto tem uma página própria onde quem visita pode **testar ou visualizar** o trabalho: demonstrações interativas, dashboards do Power BI ao vivo, sites incorporados, vídeos, galerias de imagens ou trechos de código.
+Cada projeto tem uma página própria onde quem visita pode **testar ou visualizar** o trabalho, em abas: painel do Power BI ao vivo, simulação passo a passo dos robôs, capturas de tela, vídeos, sites incorporados e o código-fonte com destaque de sintaxe.
+
+Os projetos vêm do repositório [glucas290/GLdev](https://github.com/glucas290/GLdev).
 
 ## ✏️ Quero só mudar textos, projetos ou fotos
 
@@ -45,7 +47,7 @@ Abra o endereço que aparecer no terminal (normalmente http://localhost:5173).
 ├── docs/                    Guias (como editar, publicar e o design do site)
 ├── public/                  Arquivos servidos como estão
 │   ├── documentos/          Currículo em PDF
-│   ├── projetos/            Imagens dos projetos (capas e prints)
+│   ├── projetos/            Imagens e arquivos de código de cada projeto
 │   └── favicon.svg          Ícone da aba do navegador
 └── src/
     ├── conteudo/            ✏️ TEXTOS DO SITE — edite aqui
@@ -56,8 +58,7 @@ Abra o endereço que aparecer no terminal (normalmente http://localhost:5173).
     │   ├── estrutura/       Menu, rodapé e barra de progresso
     │   ├── fundo/           Fundo animado (auroras + constelação)
     │   ├── interface/       Peças reutilizáveis: logo, botões, animações
-    │   └── projetos/        Cartão do projeto e visualizador (janela do navegador)
-    ├── demos/               Demonstrações interativas dos projetos
+    │   └── projetos/        Cartão, visualizador com abas, simulação e leitor de código
     ├── ganchos/             Comportamentos reutilizáveis (React hooks)
     ├── utilitarios/         Funções auxiliares
     ├── estilos/             Cores, fontes e estilos globais

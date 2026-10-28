@@ -2,7 +2,7 @@ import { ArrowUpRight } from 'lucide-react';
 import type { CSSProperties, MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
 import type { Projeto } from '@/tipos/conteudo';
-import { DETALHES_VISUALIZACAO } from '@/utilitarios/visualizacao';
+import { DETALHES_VISUALIZACAO, rotuloVisualizacao } from '@/utilitarios/visualizacao';
 import styles from './CartaoProjeto.module.css';
 
 interface CartaoProjetoProps {
@@ -27,7 +27,8 @@ function endireitar(evento: MouseEvent<HTMLElement>) {
 }
 
 export function CartaoProjeto({ projeto, indice }: CartaoProjetoProps) {
-  const { rotulo, icone: Icone } = DETALHES_VISUALIZACAO[projeto.visualizacao.tipo];
+  const principal = projeto.visualizacoes[0];
+  const Icone = DETALHES_VISUALIZACAO[principal.tipo].icone;
   const cores = { '--cor-a': projeto.cores[0], '--cor-b': projeto.cores[1] } as CSSProperties;
 
   return (
@@ -48,14 +49,14 @@ export function CartaoProjeto({ projeto, indice }: CartaoProjetoProps) {
           </div>
         )}
         <span className={styles.selo}>
-          <Icone size={14} /> {rotulo}
+          <Icone size={14} /> {rotuloVisualizacao(principal)}
         </span>
       </div>
 
       <div className={styles.corpo}>
         <div className={styles.meta}>
           <span>{projeto.categoria}</span>
-          <span>{projeto.ano}</span>
+          {projeto.ano && <span>{projeto.ano}</span>}
         </div>
         <h3>{projeto.titulo}</h3>
         <p>{projeto.resumo}</p>

@@ -1,0 +1,105 @@
+.codigo {
+  background: #080913;
+}
+
+.barra {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--cor-borda);
+  font-family: var(--fonte-mono);
+  font-size: 0.75rem;
+}
+
+.arquivo {
+  color: var(--cor-texto);
+}
+
+.linguagem {
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: rgba(34, 211, 238, 0.12);
+  color: var(--cor-ciano);
+}
+
+.copiar {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--cor-borda);
+  background: transparent;
+  color: var(--cor-texto-suave);
+  font-family: inherit;
+  font-size: 0.72rem;
+}
+
+.copiar:hover {
+  color: var(--cor-texto);
+}
+
+.rolagem {
+  display: flex;
+  max-height: 620px;
+  overflow: auto;
+}
+
+.numeros {
+  position: sticky;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 12px 20px 16px;
+  text-align: right;
+  font-family: var(--fonte-mono);
+  font-size: 0.78rem;
+  line-height: 1.7;
+  color: #3c4160;
+  background: #080913;
+  user-select: none;
+  height: max-content;
+}
+
+.rolagem pre {
+  margin: 0;
+  padding: 20px 24px 20px 8px;
+  font-family: var(--fonte-mono);
+  font-size: 0.78rem;
+  line-height: 1.7;
+  color: #cbd5f5;
+  tab-size: 4;
+}
+
+.comentario {
+  color: #6b7299;
+  font-style: italic;
+}
+
+.texto {
+  color: #86efac;
+}
+
+.palavra {
+  color: #c4b5fd;
+}
+
+.numero {
+  color: #fdba74;
+}
+
+.funcao {
+  color: #67e8f9;
+}
+
+.mensagem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 320px;
+  font-family: var(--fonte-mono);
+  font-size: 0.85rem;
+  color: var(--cor-texto-suave);
+}

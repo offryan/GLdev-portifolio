@@ -31,14 +31,14 @@ export const perfil: Perfil = {
   numeros: [
     { valor: 83, sufixo: '%', rotulo: 'menos trabalho manual em Operações' },
     { valor: 5, sufixo: '+', rotulo: 'anos com dados, BI e automação' },
-    { valor: 3, rotulo: 'empresas impactadas' },
+    { valor: 6, rotulo: 'projetos publicados no GitHub' },
     { valor: 4, rotulo: 'certificações e especializações' },
   ],
 
   contato: {
     email: 'g.lucasdsl@gmail.com',
     linkedin: 'https://www.linkedin.com/in/george-lucas-b96141182/',
-    github: '', // ex.: 'https://github.com/usuario'
+    github: 'https://github.com/glucas290',
     whatsapp: '', // ex.: '5521999999999' (somente números, com DDI e DDD)
   },
 
