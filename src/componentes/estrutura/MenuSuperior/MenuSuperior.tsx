@@ -4,7 +4,7 @@ import { useEffect, useState, type MouseEvent } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Logo } from '@/componentes/interface/Logo/Logo';
 import { useSecaoAtiva } from '@/ganchos/useSecaoAtiva';
-import { SECOES_MENU, rolarAteSecao } from '@/utilitarios/navegacao';
+import { ID_LINK_INICIO, SECOES_MENU, rolarAteSecao, voltarAoTopo } from '@/utilitarios/navegacao';
 import styles from './MenuSuperior.module.css';
 
 const IDS_SECOES = SECOES_MENU.map((secao) => secao.id);
@@ -39,10 +39,26 @@ export function MenuSuperior() {
     }
   }
 
+  // Na página inicial o link não muda de rota, então a subida é feita aqui
+  function irParaInicio(evento: MouseEvent) {
+    setAberto(false);
+    if (naInicial) {
+      evento.preventDefault();
+      voltarAoTopo();
+      window.history.replaceState(null, '', '/');
+    }
+  }
+
   return (
     <header className={`${styles.menu} ${rolou || aberto ? styles.solido : ''}`}>
       <nav className={`container ${styles.conteudo}`} aria-label="Principal">
-        <Link to="/" className={styles.marca} aria-label="gldev — página inicial" onClick={() => setAberto(false)}>
+        <Link
+          to="/"
+          id={ID_LINK_INICIO}
+          className={styles.marca}
+          aria-label="gldev — ir para a página inicial"
+          onClick={irParaInicio}
+        >
           <Logo />
         </Link>
 
