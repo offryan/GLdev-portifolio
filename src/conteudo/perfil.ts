@@ -23,8 +23,8 @@ export const perfil: Perfil = {
 
   // Cada item vira um parágrafo da seção "Sobre"
   resumo: [
-    'Sou analista de dados e especialista em automação. Meu trabalho é pegar dados espalhados em ERPs, planilhas e sistemas legados e transformá-los em informação clara para quem precisa decidir.',
-    'Otimizo fluxos operacionais e processos de BackOffice com BI, Python e Power Platform — reduzindo tarefas manuais, mitigando riscos e apoiando a diretoria em cenários de alta complexidade.',
+    'Sou analista de dados e especialista em automação. Minha missão é extrair dados de sistemas legados, ERPs e planilhas e convertê-los em inteligência acionável.',
+    'Por meio de soluções em BI, Python e Power Platform, reduzo o trabalho manual, blindo operações contra erros humanos e entrego à diretoria a visibilidade necessária para cenários de alta complexidade.',
   ],
 
   // Números de destaque (contam até o valor quando aparecem na tela)
