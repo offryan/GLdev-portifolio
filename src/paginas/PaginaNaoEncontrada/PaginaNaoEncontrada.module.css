@@ -1,0 +1,25 @@
+.pagina {
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  padding: var(--altura-menu) 0;
+}
+
+.codigo {
+  display: block;
+  font-family: var(--fonte-titulo);
+  font-size: clamp(6rem, 20vw, 12rem);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.pagina h1 {
+  font-size: 2rem;
+  margin: 12px 0;
+}
+
+.pagina p {
+  color: var(--cor-texto-suave);
+  margin-bottom: 32px;
+}

@@ -1,0 +1,11 @@
+.barra {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 100;
+  transform-origin: 0 50%;
+  background: var(--gradiente-borda);
+  box-shadow: 0 0 12px rgba(34, 211, 238, 0.8);
+}
