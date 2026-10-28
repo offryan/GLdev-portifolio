@@ -46,4 +46,11 @@ Gradiente de assinatura: violeta → ciano → verde, usado em palavras de desta
 - Entrada de blocos: opacidade + desfoque + deslocamento de 48px, uma vez por elemento.
 - Parágrafos do "Sobre": palavras acendem conforme a rolagem.
 - Linha do tempo: trilho preenchido de acordo com a rolagem.
+- Diagrama "Como funciona": um ponto de luz percorre cada conector, em sequência, como dados fluindo.
 - Respeita `prefers-reduced-motion`: animações são reduzidas e o fundo fica estático.
+
+## Desempenho e acessibilidade
+
+- Auroras do fundo em CSS (animadas pela GPU); a constelação em canvas começa após o carregamento e roda a 30 fps no celular.
+- Contraste mínimo WCAG AA em todo texto (4,5:1; 3:1 para texto grande), inclusive nas palavras ainda "apagadas" do Sobre.
+- Link "Pular para o conteúdo", foco visível em todos os controles e áreas de código roláveis pelo teclado.

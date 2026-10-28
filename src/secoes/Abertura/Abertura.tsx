@@ -146,7 +146,7 @@ export function Abertura() {
         </motion.div>
       </div>
 
-      <a href="#sobre" className={styles.rolar} aria-label="Rolar para a próxima seção">
+      <a href="#sobre" className={styles.rolar} aria-label="role para a próxima seção">
         <span>role</span>
         <ArrowDown size={16} />
       </a>

@@ -34,10 +34,17 @@ A ordem da lista é a ordem em que aparecem no site.
   titulo: 'Meu Novo Projeto',
   categoria: 'Automação',              // vira um filtro na seção de projetos
   ano: '2026',
-  resumo: 'Uma frase que aparece no cartão.',
-  descricao: [
-    'Primeiro parágrafo da página do projeto.',
-    'Segundo parágrafo.',
+  resumo: 'Uma frase que aparece no cartão e na prévia do link.',
+  problema: 'O que acontecia antes do projeto.',
+  solucao: [
+    'Primeiro passo da solução.',
+    'Segundo passo.',
+  ],
+  impacto: 'O que mudou depois.',
+  fluxo: [
+    { titulo: 'Planilha', detalhe: 'Dados de entrada', icone: 'planilha' },
+    { titulo: 'Python', detalhe: 'Tratamento', icone: 'robo' },
+    { titulo: 'Power BI', detalhe: 'Painel final', icone: 'painel' },
   ],
   tecnologias: ['Python', 'Power BI'],
   resultados: [
@@ -55,6 +62,13 @@ A ordem da lista é a ordem em que aparecem no site.
   ],
 },
 ```
+
+### Estudo de caso e diagrama
+
+A página de cada projeto mostra três blocos: **O problema** (`problema`), **A solução** (cada item de `solucao` vira um passo numerado) e **O resultado** (`impacto` + `resultados`).
+
+O `fluxo` desenha o diagrama "Como funciona": cada item é uma caixa, ligada à próxima por uma seta animada. Use de 3 a 6 caixas.
+Ícones disponíveis: `'api'`, `'banco'`, `'planilha'`, `'robo'`, `'email'`, `'painel'`, `'regras'`, `'arquivo'`, `'navegador'`, `'certificado'`, `'nuvem'`.
 
 ### Formas de visualizar um projeto (`visualizacoes`)
 
@@ -85,6 +99,15 @@ Antes de publicar, confira se o arquivo não tem senhas, endereços internos ou 
 Coloque as imagens em `public/projetos/<slug-do-projeto>/` e use o caminho começando com `/projetos/...`.
 Tamanho recomendado: 1600 × 1000 px (proporção 16:10), formato `.png`, `.jpg` ou `.webp`.
 
+### Imagem de prévia do link (LinkedIn, WhatsApp…)
+
+Cada projeto tem uma imagem de prévia em `public/og/<slug>.jpg`, e o site tem `public/og/gldev.jpg`.
+Depois de adicionar um projeto ou mudar nome/cargo, gere as imagens de novo (precisa do Chromium do Playwright: `npx playwright install chromium`):
+
+```bash
+npm run imagens
+```
+
 ## 3. Habilidades — `habilidades.ts`
 
 Cada cartão tem `titulo`, `descricao`, a lista `itens` e um `icone`, que pode ser:
@@ -99,6 +122,11 @@ A mais recente primeiro. Use `atual: true` no emprego atual (o marcador fica ver
 Duas listas simples com `titulo`, `instituicao` e `ano`.
 
 ---
+
+## Endereço do site e textos para o Google — `site.ts`
+
+`url` (endereço oficial), `titulo` e `descricao` aparecem no Google e nas prévias do link.
+O mapa do site (`sitemap.xml`) e as páginas com prévia de cada projeto são gerados sozinhos no `npm run build`.
 
 ## Mudando cores
 
