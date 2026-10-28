@@ -1,0 +1,58 @@
+.botao {
+  position: fixed;
+  right: max(20px, env(safe-area-inset-right));
+  bottom: max(20px, env(safe-area-inset-bottom));
+  z-index: 40;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  color: var(--cor-texto);
+  background: rgba(10, 11, 22, 0.75);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 10px 30px -8px rgba(0, 0, 0, 0.6), 0 0 24px -6px rgba(34, 211, 238, 0.45);
+  transition: background var(--transicao), transform var(--transicao);
+}
+
+.botao:hover {
+  background: rgba(30, 32, 56, 0.9);
+  transform: translateY(-3px);
+}
+
+.botao:focus-visible {
+  outline: 2px solid var(--cor-ciano);
+  outline-offset: 4px;
+  border-radius: 50%;
+}
+
+.anel {
+  position: absolute;
+  inset: 0;
+  transform: rotate(-90deg);
+}
+
+.trilho,
+.progresso {
+  fill: none;
+  stroke-width: 2.5;
+}
+
+.trilho {
+  stroke: var(--cor-borda-forte);
+}
+
+.progresso {
+  stroke: var(--cor-ciano);
+  stroke-linecap: round;
+}
+
+@media (max-width: 640px) {
+  .botao {
+    width: 48px;
+    height: 48px;
+  }
+}
