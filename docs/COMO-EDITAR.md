@@ -30,7 +30,7 @@ A ordem da lista é a ordem em que aparecem no site.
 
 ```ts
 {
-  slug: 'meu-novo-projeto',            // endereço: gldev.com/projetos/meu-novo-projeto
+  slug: 'meu-novo-projeto',            // endereço: gldev.com.br/projetos/meu-novo-projeto
   titulo: 'Meu Novo Projeto',
   categoria: 'Automação',              // vira um filtro na seção de projetos
   ano: '2026',
