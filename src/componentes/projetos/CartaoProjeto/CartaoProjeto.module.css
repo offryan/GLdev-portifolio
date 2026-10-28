@@ -1,0 +1,168 @@
+.cartao {
+  --rx: 0deg;
+  --ry: 0deg;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border-radius: var(--raio);
+  background: rgba(10, 11, 22, 0.6);
+  border: 1px solid var(--cor-borda);
+  backdrop-filter: blur(14px);
+  overflow: hidden;
+  transform: perspective(1000px) rotateX(var(--rx)) rotateY(var(--ry));
+  transition: transform 0.2s ease-out, border-color var(--transicao), box-shadow var(--transicao);
+}
+
+.cartao::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(500px circle at var(--x, 50%) var(--y, 50%), rgba(255, 255, 255, 0.08), transparent 40%);
+  opacity: 0;
+  transition: opacity var(--transicao);
+  pointer-events: none;
+}
+
+.cartao:hover {
+  border-color: color-mix(in srgb, var(--cor-a) 60%, transparent);
+  box-shadow: 0 30px 80px -30px color-mix(in srgb, var(--cor-a) 70%, transparent);
+}
+
+.cartao:hover::after {
+  opacity: 1;
+}
+
+.capa {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+.capa img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.arte {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 20% 20%, color-mix(in srgb, var(--cor-a) 80%, transparent), transparent 55%),
+    radial-gradient(circle at 85% 80%, color-mix(in srgb, var(--cor-b) 75%, transparent), transparent 55%), #0b0c1a;
+  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.arte::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: radial-gradient(circle at center, #000, transparent 75%);
+}
+
+.cartao:hover .arte,
+.cartao:hover .capa img {
+  transform: scale(1.06);
+}
+
+.numero {
+  position: absolute;
+  top: 16px;
+  left: 20px;
+  font-family: var(--fonte-mono);
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.iconeArte {
+  position: relative;
+  color: rgba(255, 255, 255, 0.9);
+  filter: drop-shadow(0 8px 30px rgba(0, 0, 0, 0.4));
+}
+
+.selo {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: rgba(5, 6, 13, 0.7);
+  border: 1px solid var(--cor-borda-forte);
+  backdrop-filter: blur(10px);
+}
+
+.corpo {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 26px;
+}
+
+.meta {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--fonte-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--cor-texto-fraco);
+  margin-bottom: 12px;
+}
+
+.corpo h3 {
+  font-size: 1.45rem;
+  margin-bottom: 10px;
+}
+
+.corpo p {
+  color: var(--cor-texto-suave);
+  font-size: 0.95rem;
+}
+
+.tecnologias {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  list-style: none;
+  padding: 0;
+  margin: 20px 0 24px;
+}
+
+.tecnologias li {
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-family: var(--fonte-mono);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--cor-texto-suave);
+}
+
+.abrir {
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--cor-texto);
+}
+
+.abrir svg {
+  transition: transform var(--transicao);
+}
+
+.cartao:hover .abrir svg {
+  transform: translate(3px, -3px);
+}

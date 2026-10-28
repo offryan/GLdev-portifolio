@@ -1,0 +1,59 @@
+.botao {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 22px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-weight: 600;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  isolation: isolate;
+  transition: transform var(--transicao), box-shadow var(--transicao), background var(--transicao),
+    border-color var(--transicao);
+}
+
+.botao:hover {
+  transform: translateY(-2px);
+}
+
+.icone {
+  display: inline-flex;
+  transition: transform var(--transicao);
+}
+
+.botao:hover .icone {
+  transform: translateX(3px);
+}
+
+.primario {
+  color: #05060d;
+  background: linear-gradient(110deg, #c4b5fd, #67e8f9 50%, #6ee7b7);
+  box-shadow: 0 10px 40px -10px rgba(34, 211, 238, 0.65);
+}
+
+.primario:hover {
+  box-shadow: 0 16px 50px -8px rgba(139, 92, 246, 0.75);
+}
+
+.secundario {
+  background: var(--cor-superficie-forte);
+  border-color: var(--cor-borda-forte);
+  backdrop-filter: blur(10px);
+}
+
+.secundario:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.fantasma {
+  padding: 8px 4px;
+  color: var(--cor-texto-suave);
+}
+
+.fantasma:hover {
+  color: var(--cor-texto);
+  transform: none;
+}

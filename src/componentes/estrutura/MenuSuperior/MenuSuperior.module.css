@@ -1,0 +1,108 @@
+.menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  height: var(--altura-menu);
+  transition: background var(--transicao), border-color var(--transicao), backdrop-filter var(--transicao);
+  border-bottom: 1px solid transparent;
+}
+
+.solido {
+  background: rgba(5, 6, 13, 0.65);
+  backdrop-filter: blur(18px) saturate(160%);
+  border-bottom-color: var(--cor-borda);
+}
+
+.conteudo {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.marca {
+  display: inline-flex;
+}
+
+.links {
+  display: flex;
+  gap: 6px;
+  list-style: none;
+  margin: 0;
+  padding: 6px;
+  border-radius: 999px;
+  background: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  backdrop-filter: blur(12px);
+}
+
+.links a {
+  display: block;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  color: var(--cor-texto-suave);
+  transition: color var(--transicao), background var(--transicao);
+}
+
+.links a:hover {
+  color: var(--cor-texto);
+}
+
+.links a.ativo {
+  color: var(--cor-texto);
+  background: var(--cor-superficie-forte);
+  box-shadow: inset 0 0 0 1px var(--cor-borda-forte);
+}
+
+.botaoMobile {
+  display: none;
+  background: var(--cor-superficie-forte);
+  border: 1px solid var(--cor-borda);
+  border-radius: 12px;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+}
+
+.painelMobile {
+  list-style: none;
+  margin: 0;
+  padding: 24px 16px 40px;
+  position: fixed;
+  top: var(--altura-menu);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(5, 6, 13, 0.92);
+  backdrop-filter: blur(20px);
+}
+
+.painelMobile a {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--cor-borda);
+  font-family: var(--fonte-titulo);
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.painelMobile span {
+  font-family: var(--fonte-mono);
+  font-size: 0.8rem;
+  color: var(--cor-ciano);
+}
+
+@media (max-width: 860px) {
+  .links {
+    display: none;
+  }
+  .botaoMobile {
+    display: inline-flex;
+  }
+}

@@ -1,0 +1,30 @@
+/* Cores, fontes e medidas usadas em todo o site */
+:root {
+  --cor-fundo: #05060d;
+  --cor-superficie: rgba(255, 255, 255, 0.035);
+  --cor-superficie-forte: rgba(255, 255, 255, 0.07);
+  --cor-borda: rgba(255, 255, 255, 0.09);
+  --cor-borda-forte: rgba(255, 255, 255, 0.18);
+  --cor-texto: #eef0ff;
+  --cor-texto-suave: #a3a9c2;
+  --cor-texto-fraco: #6b7190;
+
+  --cor-violeta: #8b5cf6;
+  --cor-ciano: #22d3ee;
+  --cor-verde: #34d399;
+  --cor-rosa: #f472b6;
+
+  --gradiente: linear-gradient(110deg, #a78bfa 0%, #22d3ee 45%, #34d399 75%, #a78bfa 100%);
+  --gradiente-borda: linear-gradient(135deg, rgba(139, 92, 246, 0.7), rgba(34, 211, 238, 0.5), rgba(52, 211, 153, 0.6));
+
+  --fonte-titulo: 'Space Grotesk Variable', system-ui, sans-serif;
+  --fonte-texto: 'Inter Variable', system-ui, sans-serif;
+  --fonte-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
+
+  --largura-max: 1200px;
+  --raio: 18px;
+  --raio-pequeno: 10px;
+  --altura-menu: 72px;
+  --sombra: 0 30px 80px -20px rgba(0, 0, 0, 0.6);
+  --transicao: 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}

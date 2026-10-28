@@ -1,0 +1,31 @@
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.icone {
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 14px rgba(34, 211, 238, 0.35));
+  transition: transform var(--transicao);
+}
+
+.logo:hover .icone {
+  transform: rotate(-8deg) scale(1.06);
+}
+
+.texto {
+  font-family: var(--fonte-titulo);
+  font-weight: 700;
+  font-size: 1.3rem;
+  letter-spacing: -0.03em;
+}
+
+.dev {
+  font-weight: 400;
+  color: var(--cor-texto-suave);
+}
+
+.ponto {
+  color: var(--cor-ciano);
+}
