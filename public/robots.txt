@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://gldev.com/sitemap.xml
+Sitemap: https://gldev.com.br/sitemap.xml

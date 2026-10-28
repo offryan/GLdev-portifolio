@@ -85,7 +85,7 @@ function pagina(conteudo: string) {
 <body><div class="grade"></div><div class="conteudo">${conteudo}</div><div class="rodape"></div></body></html>`;
 }
 
-const marca = `<div class="marca">${ICONE_GL}<div>gl<span>dev</span><i>.</i>com</div></div>`;
+const marca = `<div class="marca">${ICONE_GL}<div>gl<span>dev</span><i>.</i>com.br</div></div>`;
 
 function htmlInicial() {
   const chips = ['Power BI', 'Python', 'SQL', 'Power Platform', 'Automação'].map((c) => `<span>${c}</span>`).join('');

@@ -21,7 +21,7 @@ export function Visualizador({ projeto }: VisualizadorProps) {
   const linkExterno = 'url' in visualizacao ? visualizacao.url : undefined;
   const endereco = linkExterno
     ? linkExterno.replace(/^https?:\/\//, '')
-    : `gldev.com/projetos/${projeto.slug}${'arquivo' in visualizacao ? `/${visualizacao.arquivo.split('/').pop()}` : ''}`;
+    : `gldev.com.br/projetos/${projeto.slug}${'arquivo' in visualizacao ? `/${visualizacao.arquivo.split('/').pop()}` : ''}`;
 
   return (
     <div>
