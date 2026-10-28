@@ -1,0 +1,264 @@
+/// Tabela que agrupa as medidas do painel.
+table Medidas
+
+	/// Data da última movimentação carregada.
+	measure 'Atualizado em' = "Dados até " & FORMAT(MAX(fEntregaCargaSolta[DATA_JANELA]), "dd/mm/yyyy")
+		displayFolder: 0 Geral
+
+	/// Meta de atendimento no prazo da conferência aduaneira.
+	measure 'Meta % Conferência' = 0.90
+		formatString: 0%
+		displayFolder: 0 Geral
+
+	/// Meta de caminhões atendidos dentro do tempo de ciclo.
+	measure 'Meta % Entrega' = 0.85
+		formatString: 0%
+		displayFolder: 0 Geral
+
+	/// Meta de desovas concluídas no prazo em todas as etapas.
+	measure 'Meta % Recebimento' = 0.85
+		formatString: 0%
+		displayFolder: 0 Geral
+
+	measure Conferências = COUNTROWS(fConferencia)
+		formatString: #,0
+		displayFolder: 1 Conferência
+
+	measure 'Conferências Concluídas' = CALCULATE(COUNTROWS(fConferencia), fConferencia[STATUS_ENVIO_RELATORIO] IN {"NO PRAZO", "FORA DO PRAZO"})
+		formatString: #,0
+		displayFolder: 1 Conferência
+
+	measure 'Conferências no Prazo' = CALCULATE(COUNTROWS(fConferencia), fConferencia[STATUS_ENVIO_RELATORIO] = "NO PRAZO")
+		formatString: #,0
+		displayFolder: 1 Conferência
+
+	measure 'Conferências Fora do Prazo' = CALCULATE(COUNTROWS(fConferencia), fConferencia[STATUS_ENVIO_RELATORIO] = "FORA DO PRAZO")
+		formatString: #,0
+		displayFolder: 1 Conferência
+
+	measure 'Conferências em Andamento' = CALCULATE(COUNTROWS(fConferencia), fConferencia[STATUS_ENVIO_RELATORIO] = "EM ANDAMENTO") + 0
+		formatString: #,0
+		displayFolder: 1 Conferência
+
+	/// Relatório enviado ao fiscal dentro da meta do serviço.
+	measure '% Conferência no Prazo' = DIVIDE([Conferências no Prazo], [Conferências Concluídas])
+		formatString: 0.0%
+		displayFolder: 1 Conferência
+
+	measure '% Posicionamento Conferência no Prazo' =
+			DIVIDE(
+			    CALCULATE(COUNTROWS(fConferencia), fConferencia[STATUS_POSICIONAMENTO] = "NO PRAZO"),
+			    CALCULATE(COUNTROWS(fConferencia), fConferencia[STATUS_POSICIONAMENTO] IN {"NO PRAZO", "FORA DO PRAZO"})
+			)
+		formatString: 0.0%
+		displayFolder: 1 Conferência
+
+	/// Horas do pedido de posicionamento até o envio do relatório.
+	measure 'Ciclo Médio Conferência (h)' = AVERAGE(fConferencia[HORAS_CICLO_TOTAL])
+		formatString: #,0.0
+		displayFolder: 1 Conferência
+
+	measure 'Posicionamento Médio Conferência (h)' = AVERAGE(fConferencia[HORAS_POSICIONAMENTO])
+		formatString: #,0.0
+		displayFolder: 1 Conferência
+
+	measure 'Atendimento Fiscal Médio (h)' = AVERAGE(fConferencia[HORAS_ATENDIMENTO_FISCAL])
+		formatString: #,0.0
+		displayFolder: 1 Conferência
+
+	measure '% Conferências Justificadas' = DIVIDE(CALCULATE([Conferências Fora do Prazo], NOT ISBLANK(fConferencia[JUSTIFICATIVA])), [Conferências Fora do Prazo])
+		formatString: 0%
+		displayFolder: 1 Conferência
+
+	measure Agendamentos = COUNTROWS(fEntregaCargaSolta)
+		formatString: #,0
+		displayFolder: 2 Entrega
+
+	measure 'Caminhões Atendidos' = CALCULATE(COUNTROWS(fEntregaCargaSolta), fEntregaCargaSolta[STATUS] = "FINALIZADO")
+		formatString: #,0
+		displayFolder: 2 Entrega
+
+	measure 'Caminhões no Prazo' = CALCULATE(COUNTROWS(fEntregaCargaSolta), fEntregaCargaSolta[STATUS_KPI] = "NO PRAZO")
+		formatString: #,0
+		displayFolder: 2 Entrega
+
+	measure 'Caminhões Fora do Prazo' = CALCULATE(COUNTROWS(fEntregaCargaSolta), fEntregaCargaSolta[STATUS_KPI] = "FORA DO PRAZO")
+		formatString: #,0
+		displayFolder: 2 Entrega
+
+	/// Caminhões com ciclo gate-in a gate-out dentro da meta do tipo de atendimento.
+	measure '% Entrega no Prazo' = DIVIDE([Caminhões no Prazo], [Caminhões Atendidos])
+		formatString: 0.0%
+		displayFolder: 2 Entrega
+
+	measure 'Ciclo Médio Caminhão (min)' = AVERAGE(fEntregaCargaSolta[MIN_CICLO_TOTAL])
+		formatString: #,0
+		displayFolder: 2 Entrega
+
+	measure 'Espera Média Carregamento (min)' = AVERAGE(fEntregaCargaSolta[MIN_ESPERA_CARREGAMENTO])
+		formatString: #,0
+		displayFolder: 2 Entrega
+
+	measure 'Carregamento Médio (min)' = AVERAGE(fEntregaCargaSolta[MIN_CARREGAMENTO])
+		formatString: #,0
+		displayFolder: 2 Entrega
+
+	measure 'Liberação Média Saída (min)' = AVERAGE(fEntregaCargaSolta[MIN_LIBERACAO_SAIDA])
+		formatString: #,0
+		displayFolder: 2 Entrega
+
+	measure '% No Show' = DIVIDE(CALCULATE(COUNTROWS(fEntregaCargaSolta), fEntregaCargaSolta[STATUS] = "NO SHOW"), [Agendamentos])
+		formatString: 0.0%
+		displayFolder: 2 Entrega
+
+	measure '% Chegada no Horário' =
+			DIVIDE(
+			    CALCULATE(COUNTROWS(fEntregaCargaSolta), fEntregaCargaSolta[PONTUALIDADE_CHEGADA] = "NO HORÁRIO"),
+			    CALCULATE(COUNTROWS(fEntregaCargaSolta), NOT ISBLANK(fEntregaCargaSolta[PONTUALIDADE_CHEGADA]))
+			)
+		formatString: 0.0%
+		displayFolder: 2 Entrega
+
+	measure 'Volumes Entregues' = CALCULATE(SUM(fEntregaCargaSolta[QTD_VOLUMES]), fEntregaCargaSolta[STATUS] = "FINALIZADO")
+		formatString: #,0
+		displayFolder: 2 Entrega
+
+	measure 'Contêineres Recebidos' = CALCULATE(COUNTROWS(fRecebimento), fRecebimento[CANCELADA] = FALSE())
+		formatString: #,0
+		displayFolder: 3 Recebimento
+
+	measure 'Desovas Canceladas' = CALCULATE(COUNTROWS(fRecebimento), fRecebimento[CANCELADA] = TRUE()) + 0
+		formatString: #,0
+		displayFolder: 3 Recebimento
+
+	measure 'Desovas em Andamento' = CALCULATE(COUNTROWS(fRecebimento), fRecebimento[STATUS_GERAL] = "EM ANDAMENTO") + 0
+		formatString: #,0
+		displayFolder: 3 Recebimento
+
+	/// Desovas com todas as etapas (posicionamento, desova, presença de carga e relatório) no prazo.
+	measure '% Processo Recebimento no Prazo' =
+			DIVIDE(
+			    CALCULATE(COUNTROWS(fRecebimento), fRecebimento[STATUS_GERAL] = "NO PRAZO"),
+			    CALCULATE(COUNTROWS(fRecebimento), fRecebimento[STATUS_GERAL] IN {"NO PRAZO", "FORA DO PRAZO"})
+			)
+		formatString: 0.0%
+		displayFolder: 3 Recebimento
+
+	measure '% Posicionamento Recebimento no Prazo' =
+			DIVIDE(
+			    CALCULATE(COUNTROWS(fRecebimento), fRecebimento[STATUS_POSICIONAMENTO] = "NO PRAZO"),
+			    CALCULATE(COUNTROWS(fRecebimento), fRecebimento[STATUS_POSICIONAMENTO] IN {"NO PRAZO", "FORA DO PRAZO"})
+			)
+		formatString: 0.0%
+		displayFolder: 3 Recebimento
+
+	measure '% Desunitização no Prazo' =
+			DIVIDE(
+			    CALCULATE(COUNTROWS(fRecebimento), fRecebimento[STATUS_DESUNITIZACAO] = "NO PRAZO"),
+			    CALCULATE(COUNTROWS(fRecebimento), fRecebimento[STATUS_DESUNITIZACAO] IN {"NO PRAZO", "FORA DO PRAZO"})
+			)
+		formatString: 0.0%
+		displayFolder: 3 Recebimento
+
+	measure '% Presença de Carga no Prazo' =
+			DIVIDE(
+			    CALCULATE(COUNTROWS(fRecebimento), fRecebimento[STATUS_ARMAZENAGEM] = "NO PRAZO"),
+			    CALCULATE(COUNTROWS(fRecebimento), fRecebimento[STATUS_ARMAZENAGEM] IN {"NO PRAZO", "FORA DO PRAZO"})
+			)
+		formatString: 0.0%
+		displayFolder: 3 Recebimento
+
+	measure '% Relatório Desova no Prazo' =
+			DIVIDE(
+			    CALCULATE(COUNTROWS(fRecebimento), fRecebimento[STATUS_ENVIO_RELATORIO] = "NO PRAZO"),
+			    CALCULATE(COUNTROWS(fRecebimento), fRecebimento[STATUS_ENVIO_RELATORIO] IN {"NO PRAZO", "FORA DO PRAZO"})
+			)
+		formatString: 0.0%
+		displayFolder: 3 Recebimento
+
+	/// Horas da solicitação de posicionamento até a armazenagem da carga.
+	measure 'Lead Time Médio (h)' = CALCULATE(AVERAGE(fRecebimento[HORAS_LEAD_TIME]), fRecebimento[CANCELADA] = FALSE())
+		formatString: #,0.0
+		displayFolder: 3 Recebimento
+
+	measure 'Posicionamento Médio Recebimento (h)' = AVERAGE(fRecebimento[HORAS_POSICIONAMENTO])
+		formatString: #,0.0
+		displayFolder: 3 Recebimento
+
+	measure 'Desunitização Média (h)' = AVERAGE(fRecebimento[HORAS_DESUNITIZACAO])
+		formatString: #,0.0
+		displayFolder: 3 Recebimento
+
+	measure 'Armazenagem Média (h)' = AVERAGE(fRecebimento[HORAS_ARMAZENAGEM])
+		formatString: #,0.0
+		displayFolder: 3 Recebimento
+
+	measure 'Envio Relatório Médio (h)' = AVERAGE(fRecebimento[HORAS_ENVIO_RELATORIO])
+		formatString: #,0.0
+		displayFolder: 3 Recebimento
+
+	measure 'Escala Mínima' = 0
+		formatString: 0%
+		isHidden
+		displayFolder: 9 Layout
+
+	measure 'Escala Máxima' = 1
+		formatString: 0%
+		isHidden
+		displayFolder: 9 Layout
+
+	/// Verde quando atinge a meta, vermelho quando não atinge (formatação condicional).
+	measure 'Cor Conferência' = IF([% Conferência no Prazo] >= [Meta % Conferência], "#3DDC84", "#FF5A5F")
+		displayFolder: 9 Layout
+
+	measure 'Cor Entrega' = IF([% Entrega no Prazo] >= [Meta % Entrega], "#3DDC84", "#FF5A5F")
+		displayFolder: 9 Layout
+
+	measure 'Cor Recebimento' = IF([% Processo Recebimento no Prazo] >= [Meta % Recebimento], "#3DDC84", "#FF5A5F")
+		displayFolder: 9 Layout
+
+	measure 'Status Meta Conferência' =
+			VAR Diferenca = [% Conferência no Prazo] - [Meta % Conferência]
+			RETURN
+			    "Meta " & FORMAT([Meta % Conferência], "0%") & "   " & IF(Diferenca >= 0, "▲ ", "▼ ") & FORMAT(ABS(Diferenca) * 100, "0.0") & " p.p."
+		displayFolder: 9 Layout
+
+	measure 'Status Meta Entrega' =
+			VAR Diferenca = [% Entrega no Prazo] - [Meta % Entrega]
+			RETURN
+			    "Meta " & FORMAT([Meta % Entrega], "0%") & "   " & IF(Diferenca >= 0, "▲ ", "▼ ") & FORMAT(ABS(Diferenca) * 100, "0.0") & " p.p."
+		displayFolder: 9 Layout
+
+	measure 'Status Meta Recebimento' =
+			VAR Diferenca = [% Processo Recebimento no Prazo] - [Meta % Recebimento]
+			RETURN
+			    "Meta " & FORMAT([Meta % Recebimento], "0%") & "   " & IF(Diferenca >= 0, "▲ ", "▼ ") & FORMAT(ABS(Diferenca) * 100, "0.0") & " p.p."
+		displayFolder: 9 Layout
+
+	/// Devolve o % no prazo da etapa em contexto (usar com dEtapaRecebimento[ETAPA]).
+	measure '% Recebimento no Prazo por Etapa' =
+			SWITCH(
+			    SELECTEDVALUE(dEtapaRecebimento[ORDEM]),
+			    1, [% Posicionamento Recebimento no Prazo],
+			    2, [% Desunitização no Prazo],
+			    3, [% Presença de Carga no Prazo],
+			    4, [% Relatório Desova no Prazo]
+			)
+		formatString: 0.0%
+		displayFolder: 3 Recebimento
+
+	column Medidas
+		dataType: string
+		isHidden
+		summarizeBy: none
+		sourceColumn: Medidas
+
+	partition Medidas = m
+		mode: import
+		queryGroup: '4 Dimensões'
+		source =
+				let
+				    Fonte = #table(type table [Medidas = text], {})
+				in
+				    Fonte
+

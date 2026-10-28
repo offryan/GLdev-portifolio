@@ -1,0 +1,117 @@
+.experiencia {
+  padding: 140px 0;
+}
+
+.linhaDoTempo {
+  position: relative;
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 56px;
+  display: grid;
+  gap: 72px;
+}
+
+.trilho {
+  position: absolute;
+  left: 11px;
+  top: 6px;
+  bottom: 0;
+  width: 2px;
+  background: var(--cor-borda);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.preenchimento {
+  position: absolute;
+  inset: 0;
+  transform-origin: top;
+  background: linear-gradient(to bottom, var(--cor-violeta), var(--cor-ciano), var(--cor-verde));
+  box-shadow: 0 0 16px rgba(34, 211, 238, 0.8);
+}
+
+.item {
+  position: relative;
+}
+
+.marcador {
+  position: absolute;
+  left: -52px;
+  top: 4px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--cor-fundo);
+  border: 2px solid var(--cor-ciano);
+  box-shadow: 0 0 0 5px rgba(34, 211, 238, 0.12);
+}
+
+.marcadorAtual {
+  background: var(--cor-verde);
+  border-color: var(--cor-verde);
+  box-shadow: 0 0 0 6px rgba(52, 211, 153, 0.18), 0 0 24px rgba(52, 211, 153, 0.8);
+}
+
+.periodo {
+  font-family: var(--fonte-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--cor-ciano);
+}
+
+.cabecalho h3 {
+  margin-top: 8px;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+}
+
+.empresa {
+  margin-top: 6px;
+  color: var(--cor-texto-suave);
+}
+
+.conquistas {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-top: 28px;
+}
+
+.conquista {
+  padding: 22px;
+  border-radius: var(--raio-pequeno);
+  background: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  backdrop-filter: blur(10px);
+  transition: border-color var(--transicao), background var(--transicao);
+}
+
+.conquista:hover {
+  border-color: var(--cor-borda-forte);
+  background: var(--cor-superficie-forte);
+}
+
+.conquista h4 {
+  font-size: 1.02rem;
+  margin-bottom: 8px;
+}
+
+.conquista p {
+  font-size: 0.92rem;
+  color: var(--cor-texto-suave);
+}
+
+@media (max-width: 760px) {
+  .experiencia {
+    padding: 100px 0;
+  }
+  .linhaDoTempo {
+    padding-left: 36px;
+  }
+  .marcador {
+    left: -32px;
+  }
+  .conquistas {
+    grid-template-columns: 1fr;
+  }
+}

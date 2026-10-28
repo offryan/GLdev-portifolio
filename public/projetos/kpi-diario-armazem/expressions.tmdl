@@ -1,0 +1,289 @@
+/// Pasta raiz das bases (termina com \). Ajuste para o local onde o repositório foi clonado.
+expression CaminhoDados = "G:\PROJETOS GLDEV\PESSOAL - GLDEV\GLdev\kpi-armazem-portuario\dados\" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	queryGroup: '0 Parâmetros'
+
+/// Lê uma extração do TOS. Em produção: Oracle.Database("<servidor>:1521/<serviço>", [Query = "SELECT ..."]).
+expression fnArquivoTOS =
+		(nomeArquivo as text) as table =>
+		let
+		    // No painel original esta etapa era Oracle.Database com uma consulta SQL nativa.
+		    // No portfólio, cada consulta foi exportada para um CSV em dados\oracle_tos.
+		    Fonte = Csv.Document(File.Contents(CaminhoDados & "oracle_tos\" & nomeArquivo), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+		    Cabecalhos = Table.PromoteHeaders(Fonte, [PromoteAllScalars = true]),
+		    VaziosComoNulo = Table.TransformColumns(Cabecalhos, {}, each if _ = "" then null else _)
+		in
+		    VaziosComoNulo
+	queryGroup: '1 Funções'
+
+/// Devolve o binário de uma planilha da biblioteca do SharePoint (simulada pela pasta dados\sharepoint).
+expression fnArquivoSharePoint =
+		(nomeArquivo as text) as binary =>
+		    // Em produção: SharePoint.Contents("https://<empresa>.sharepoint.com/sites/Planejamento_Armazem", [ApiVersion = 15])
+		    // navegando por Shared Documents > PLANEJAMENTO até o arquivo.
+		    File.Contents(CaminhoDados & "sharepoint\" & nomeArquivo)
+	queryGroup: '1 Funções'
+
+/// Lê uma aba de planilha de controle: pula as linhas de título, promove o cabeçalho e remove linhas vazias.
+expression fnAbaControle =
+		(nomeArquivo as text, nomeAba as text, linhasTitulo as number) as table =>
+		let
+		    Fonte = Excel.Workbook(fnArquivoSharePoint(nomeArquivo), null, true),
+		    Aba = Fonte{[Item = nomeAba, Kind = "Sheet"]}[Data],
+		    SemTitulo = Table.Skip(Aba, linhasTitulo),
+		    Cabecalhos = Table.PromoteHeaders(SemTitulo, [PromoteAllScalars = true]),
+		    SemLinhasVazias = Table.SelectRows(Cabecalhos, each not List.IsEmpty(List.RemoveMatchingItems(Record.FieldValues(_), {"", null})))
+		in
+		    SemLinhasVazias
+	queryGroup: '1 Funções'
+
+/// Padroniza o número do contêiner digitado à mão (maiúsculas, sem espaços, hífens ou pontos).
+expression fnLimparContainer =
+		(valor as nullable text) as nullable text =>
+		    if valor = null then null else Text.Upper(Text.Remove(Text.Trim(valor), {" ", "-", "."}))
+	queryGroup: '1 Funções'
+
+/// Arredonda data/hora ao minuto. Evita falhas de mesclagem com horários vindos do Excel (frações de segundo).
+expression fnArredondarMinuto =
+		(valor as nullable datetime) as nullable datetime =>
+		    if valor = null then null else DateTime.From(Number.Round(Number.From(valor) * 1440) / 1440)
+	queryGroup: '1 Funções'
+
+/// Horas decorridas entre dois instantes (nulo se faltar algum).
+expression fnHoras =
+		(inicio as nullable datetime, fim as nullable datetime) as nullable number =>
+		    if inicio = null or fim = null then null else Number.Round(Duration.TotalHours(fim - inicio), 2)
+	queryGroup: '1 Funções'
+
+/// Minutos decorridos entre dois instantes (nulo se faltar algum).
+expression fnMinutos =
+		(inicio as nullable datetime, fim as nullable datetime) as nullable number =>
+		    if inicio = null or fim = null then null else Number.Round(Duration.TotalMinutes(fim - inicio), 1)
+	queryGroup: '1 Funções'
+
+/// Classifica uma etapa: NO PRAZO, FORA DO PRAZO ou EM ANDAMENTO.
+expression fnStatusPrazo =
+		(realizado as nullable datetime, prazo as nullable datetime) as nullable text =>
+		    if prazo = null then null
+		    else if realizado = null then "EM ANDAMENTO"
+		    else if realizado <= prazo then "NO PRAZO"
+		    else "FORA DO PRAZO"
+	queryGroup: '1 Funções'
+
+/// Prazo em dias úteis: se o início passar da hora de corte, a contagem começa no dia seguinte; soma N dias úteis (sem sábados, domingos e feriados) e fixa a hora-limite.
+expression fnPrazoDiaUtil =
+		(inicio as nullable datetime, diasUteis as number, horaLimite as number, optional horaCorte as nullable number) as nullable datetime =>
+		let
+		    EhUtil = (d as date) as logical => Date.DayOfWeek(d, Day.Monday) < 5 and not List.Contains(ListaFeriados, d),
+		    Calcular = () =>
+		        let
+		            Hora = DateTime.Time(inicio),
+		            HoraDecimal = Time.Hour(Hora) + Time.Minute(Hora) / 60 + Time.Second(Hora) / 3600,
+		            Base = if horaCorte <> null and HoraDecimal > horaCorte then Date.AddDays(DateTime.Date(inicio), 1) else DateTime.Date(inicio),
+		            ProximosUteis = List.Select(List.Dates(Date.AddDays(Base, 1), 30, #duration(1, 0, 0, 0)), EhUtil),
+		            DataMeta =
+		                if diasUteis = 0 then List.First(List.Select(List.Dates(Base, 30, #duration(1, 0, 0, 0)), EhUtil))
+		                else ProximosUteis{diasUteis - 1}
+		        in
+		            DataMeta & #time(horaLimite, 0, 0)
+		in
+		    if inicio = null then null else Calcular()
+	queryGroup: '1 Funções'
+
+/// Busca a meta na planilha de parâmetros (processo + etapa + serviço) e devolve o prazo-limite.
+expression fnAplicarMeta =
+		(inicio as nullable datetime, processo as text, etapa as text, servico as text) as nullable datetime =>
+		let
+		    Linhas = Table.SelectRows(stg_SP_Metas, each [PROCESSO] = processo and [ETAPA] = etapa and ([SERVICO_KPI] = servico or [SERVICO_KPI] = "TODOS")),
+		    Meta = if Table.IsEmpty(Linhas) then null else Linhas{0},
+		    Prazo =
+		        if inicio = null or Meta = null then null
+		        else if Meta[TIPO_META] = "MINUTOS" then inicio + #duration(0, 0, Meta[MINUTOS], 0)
+		        else fnPrazoDiaUtil(inicio, Meta[DIAS_UTEIS], Meta[HORA_LIMITE], Meta[HORA_CORTE])
+		in
+		    Prazo
+	queryGroup: '1 Funções'
+
+/// Lista em memória das datas de feriado, usada no cálculo de dias úteis.
+expression ListaFeriados =
+		let
+		    Datas = List.Buffer(List.Transform(stg_SP_Feriados[DATA], Date.From))
+		in
+		    Datas
+	queryGroup: '1 Funções'
+
+/// Pedidos de posicionamento de contêineres para confêrncia/vistoria fiscal.
+expression stg_TOS_Conferencia =
+		let
+		    Fonte = fnArquivoTOS("tos_posicionamento_conferencia.csv"),
+		    Tipos = Table.TransformColumnTypes(Fonte, {
+		        {"ID_POSIC_MERC", Int64.Type}, {"CONTAINER", type text}, {"ISO", type text}, {"ID_CLIENTE", Int64.Type},
+		        {"SERVICO", type text}, {"GRUPO_FISCAL", type text}, {"ENTRADA_CTNR", type datetime}, {"DATA_PEDIDO", type datetime},
+		        {"DATA_PROGRAMADO", type datetime}, {"DATA_POSICIONADO", type datetime}, {"DATA_FECHAMENTO", type datetime}, {"STATUS", type text}
+		    }, "en-US")
+		in
+		    Tipos
+	queryGroup: '2 Origem Oracle (TOS)'
+
+/// Agendamentos de retirada de carga solta com os eventos de gate e carregamento.
+expression stg_TOS_Entrega =
+		let
+		    Fonte = fnArquivoTOS("tos_agendamento_entrega.csv"),
+		    Tipos = Table.TransformColumnTypes(Fonte, {
+		        {"TICKET", Int64.Type}, {"STATUS", type text}, {"DATA_JANELA", type datetime}, {"PLACA", type text},
+		        {"ID_TRANSPORTADORA", Int64.Type}, {"LOTE", type text}, {"ID_CLIENTE", Int64.Type}, {"TIPO_DOCUMENTO", type text},
+		        {"ATENDIMENTO_ESPECIAL", type text}, {"QTD_VOLUMES", Int64.Type}, {"PESO_KG", type number},
+		        {"DATA_PRE_GATE", type datetime}, {"DATA_GATE_IN", type datetime}, {"INICIO_CARREGAMENTO", type datetime},
+		        {"FIM_CARREGAMENTO", type datetime}, {"DATA_GATE_OUT", type datetime}
+		    }, "en-US")
+		in
+		    Tipos
+	queryGroup: '2 Origem Oracle (TOS)'
+
+/// Movimentações de contêiner entre pátio e armazém.
+expression stg_TOS_Movimentacao =
+		let
+		    Fonte = fnArquivoTOS("tos_movimentacao_conteiner.csv"),
+		    Tipos = Table.TransformColumnTypes(Fonte, {
+		        {"ID_MOV", Int64.Type}, {"CONTAINER", type text}, {"TIPO_MOVIMENTO", type text}, {"EXECUTADO", type datetime},
+		        {"LOCAL_ORIGEM", type text}, {"LOCAL_DESTINO", type text}
+		    }, "en-US")
+		in
+		    Tipos
+	queryGroup: '2 Origem Oracle (TOS)'
+
+/// Cadastro de clientes (importadores).
+expression stg_TOS_Clientes =
+		let
+		    Fonte = fnArquivoTOS("tos_clientes.csv"),
+		    Tipos = Table.TransformColumnTypes(Fonte, {{"ID_CLIENTE", Int64.Type}, {"RAZAO_SOCIAL", type text}, {"SEGMENTO", type text}, {"UF", type text}}, "en-US")
+		in
+		    Tipos
+	queryGroup: '2 Origem Oracle (TOS)'
+
+/// Cadastro de transportadoras.
+expression stg_TOS_Transportadoras =
+		let
+		    Fonte = fnArquivoTOS("tos_transportadoras.csv"),
+		    Tipos = Table.TransformColumnTypes(Fonte, {{"ID_TRANSPORTADORA", Int64.Type}, {"NOME_TRANSPORTADORA", type text}, {"UF", type text}}, "en-US")
+		in
+		    Tipos
+	queryGroup: '2 Origem Oracle (TOS)'
+
+/// Metas por processo, etapa e serviço (editáveis pela gestão, sem mexer no Power BI).
+expression stg_SP_Metas =
+		let
+		    Fonte = Excel.Workbook(fnArquivoSharePoint("Parametros e Metas.xlsx"), null, true),
+		    Aba = Fonte{[Item = "Metas", Kind = "Sheet"]}[Data],
+		    Cabecalhos = Table.PromoteHeaders(Aba, [PromoteAllScalars = true]),
+		    Tipos = Table.TransformColumnTypes(Cabecalhos, {
+		        {"PROCESSO", type text}, {"ETAPA", type text}, {"SERVICO_KPI", type text}, {"TIPO_META", type text},
+		        {"DIAS_UTEIS", Int64.Type}, {"HORA_LIMITE", Int64.Type}, {"HORA_CORTE", Int64.Type}, {"MINUTOS", Int64.Type}, {"DESCRICAO", type text}
+		    }),
+		    EmMemoria = Table.Buffer(Tipos)
+		in
+		    EmMemoria
+	queryGroup: '3 Origem SharePoint'
+
+/// Feriados nacionais, estaduais e municipais considerados nos prazos.
+expression stg_SP_Feriados =
+		let
+		    Fonte = Excel.Workbook(fnArquivoSharePoint("Parametros e Metas.xlsx"), null, true),
+		    Aba = Fonte{[Item = "Feriados", Kind = "Sheet"]}[Data],
+		    Cabecalhos = Table.PromoteHeaders(Aba, [PromoteAllScalars = true]),
+		    Tipos = Table.TransformColumnTypes(Cabecalhos, {{"DATA", type date}, {"DESCRICAO", type text}}),
+		    SemVazios = Table.SelectRows(Tipos, each [DATA] <> null)
+		in
+		    SemVazios
+	queryGroup: '3 Origem SharePoint'
+
+/// Controle manual da confêrncia: pedido do fiscal no iConfere, liberação e canal.
+expression stg_SP_Conferencia =
+		let
+		    Fonte = fnAbaControle("Controle de Conferencia Aduaneira.xlsx", "Controle", 3),
+		    Tipos = Table.TransformColumnTypes(Fonte, {
+		        {"CONTAINER", type text}, {"ID POSIC", Int64.Type}, {"DATA CRIAÇÃO PEDIDO (ICONFERE)", type datetime},
+		        {"DATA:HORA LIBERAÇÃO", type datetime}, {"SETOR", type text}, {"CANAL", type text}, {"OBSERVAÇÃO", type text}
+		    }),
+		    Renomeadas = Table.RenameColumns(Tipos, {
+		        {"ID POSIC", "ID_POSIC_MERC"}, {"DATA CRIAÇÃO PEDIDO (ICONFERE)", "DATA_PEDIDO_ICONFERE"},
+		        {"DATA:HORA LIBERAÇÃO", "DATA_LIBERACAO_FISCAL"}, {"CANAL", "CANAL_PARAMETRIZACAO"}, {"OBSERVAÇÃO", "OBSERVACAO"}
+		    }),
+		    ContainerPadronizado = Table.TransformColumns(Renomeadas, {{"CONTAINER", fnLimparContainer, type text}}),
+		    // a planilha é preenchida à mão e tem linhas repetidas
+		    SemDuplicadas = Table.Distinct(ContainerPadronizado, {"ID_POSIC_MERC"})
+		in
+		    SemDuplicadas
+	queryGroup: '3 Origem SharePoint'
+
+/// Solicitações de posicionamento pátio x armazém.
+expression stg_SP_Solicitacoes =
+		let
+		    Fonte = fnAbaControle("Solicitacao de Posicionamento.xlsx", "POSICIONAMENTOS", 4),
+		    Tipos = Table.TransformColumnTypes(Fonte, {
+		        {"Nº", Int64.Type}, {"DATA:HORA SOLICITAÇÃO", type datetime}, {"CONTAINER", type text}, {"TAM", Int64.Type},
+		        {"TS", type text}, {"LOCAL ATUAL", type text}, {"LOCAL PLANEJADO", type text}, {"SETOR", type text},
+		        {"SOLICITANTE", type text}, {"POSICIONADO?", type text}, {"STATUS", type text}
+		    }),
+		    // limpeza e remoção entre pátios não são serviços do armazém
+		    SoArmazem = Table.SelectRows(Tipos, each not Text.StartsWith([TS], "LIMPEZA") and not Text.StartsWith([TS], "REMOÇÃO")),
+		    Renomeadas = Table.RenameColumns(SoArmazem, {
+		        {"Nº", "NUM_SOLICITACAO"}, {"DATA:HORA SOLICITAÇÃO", "DATA_SOLICITACAO"}, {"TS", "TIPO_SERVICO"},
+		        {"LOCAL ATUAL", "LOCAL_ATUAL"}, {"LOCAL PLANEJADO", "LOCAL_PLANEJADO"}, {"POSICIONADO?", "POSICIONADO"}
+		    }),
+		    ContainerPadronizado = Table.TransformColumns(Renomeadas, {{"CONTAINER", fnLimparContainer, type text}})
+		in
+		    ContainerPadronizado
+	queryGroup: '3 Origem SharePoint'
+
+/// Acompanhamento de recebimento e desunitização (planilha da equipe de planejamento).
+expression stg_SP_Recebimento =
+		let
+		    Fonte = fnAbaControle("Controle do Recebimento - Desova.xlsx", "Acomp_Desova", 5),
+		    Tipos = Table.TransformColumnTypes(Fonte, {
+		        {"STATUS", type text}, {"CLIENTE", type text}, {"BL", type text}, {"CONTAINER", type text}, {"TAM", Int64.Type},
+		        {"MODAL", type text}, {"ARMADOR", type text}, {"NAVIO", type text}, {"SERVIÇO", type text},
+		        {"TERMINAL DE DESCARGA", type text}, {"FREE TIME (DIAS)", Int64.Type}, {"FIM OPERAÇÃO DO NAVIO", type datetime},
+		        {"TIME IN", type datetime}, {"SOLICITAÇÃO DO PROCESSO", type datetime}, {"DATA / HORA PROGRAMADO", type datetime},
+		        {"DATA / HORA FIM DESUNITIZAÇÃO", type datetime}, {"DATA / HORA ARMAZENAGEM", type datetime},
+		        {"DATA / HORA ENVIO DO RELATÓRIO", type datetime}, {"DESOVA CANCELADA?", type text}, {"JUSTIFICATIVA", type text}
+		    }),
+		    Renomeadas = Table.RenameColumns(Tipos, {
+		        {"STATUS", "STATUS_PROCESSO"}, {"SERVIÇO", "SERVICO"}, {"TERMINAL DE DESCARGA", "TERMINAL_DESCARGA"},
+		        {"FREE TIME (DIAS)", "FREE_TIME_DIAS"}, {"FIM OPERAÇÃO DO NAVIO", "FIM_OPERACAO_NAVIO"}, {"TIME IN", "TIME_IN"},
+		        {"SOLICITAÇÃO DO PROCESSO", "DATA_SOLICITACAO_PROCESSO"}, {"DATA / HORA PROGRAMADO", "DATA_PROGRAMADO"},
+		        {"DATA / HORA FIM DESUNITIZAÇÃO", "DATA_FIM_DESUNITIZACAO"}, {"DATA / HORA ARMAZENAGEM", "DATA_ARMAZENAGEM"},
+		        {"DATA / HORA ENVIO DO RELATÓRIO", "DATA_ENVIO_RELATORIO"}, {"DESOVA CANCELADA?", "DESOVA_CANCELADA"}
+		    }),
+		    // nomes de cliente digitados em minúsculas ou com espaços sobrando
+		    Padronizado = Table.TransformColumns(Renomeadas, {
+		        {"CLIENTE", each if _ = null then null else Text.Upper(Text.Trim(_)), type text},
+		        {"CONTAINER", fnLimparContainer, type text}
+		    }),
+		    SemDuplicadas = Table.Distinct(Padronizado, {"CONTAINER", "BL"})
+		in
+		    SemDuplicadas
+	queryGroup: '3 Origem SharePoint'
+
+/// Justificativas da equipe para caminhões fora da meta.
+expression stg_SP_JustEntrega =
+		let
+		    Fonte = fnAbaControle("Justificativas.xlsx", "Entrega", 2),
+		    Tipos = Table.TransformColumnTypes(Fonte, {{"DATA JANELA", type datetime}, {"PLACA", type text}, {"JUSTIFICATIVA", type text}, {"ÁREA RESPONSÁVEL", type text}}),
+		    Renomeadas = Table.RenameColumns(Tipos, {{"DATA JANELA", "DATA_JANELA"}, {"ÁREA RESPONSÁVEL", "AREA_RESPONSAVEL"}}),
+		    Chave = Table.TransformColumns(Renomeadas, {{"DATA_JANELA", fnArredondarMinuto, type datetime}, {"PLACA", each Text.Upper(Text.Trim(_)), type text}}),
+		    SemDuplicadas = Table.Distinct(Chave, {"DATA_JANELA", "PLACA"})
+		in
+		    SemDuplicadas
+	queryGroup: '3 Origem SharePoint'
+
+/// Justificativas da equipe para confêrncias fora da meta.
+expression stg_SP_JustConferencia =
+		let
+		    Fonte = fnAbaControle("Justificativas.xlsx", "Conferencia", 2),
+		    Tipos = Table.TransformColumnTypes(Fonte, {{"ID POSIC", Int64.Type}, {"CONTAINER", type text}, {"JUSTIFICATIVA", type text}, {"ÁREA RESPONSÁVEL", type text}}),
+		    Renomeadas = Table.RenameColumns(Tipos, {{"ID POSIC", "ID_POSIC_MERC"}, {"ÁREA RESPONSÁVEL", "AREA_RESPONSAVEL"}}),
+		    SemDuplicadas = Table.Distinct(Renomeadas, {"ID_POSIC_MERC"})
+		in
+		    SemDuplicadas
+	queryGroup: '3 Origem SharePoint'
+
