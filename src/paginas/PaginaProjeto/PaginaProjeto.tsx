@@ -7,7 +7,7 @@ import { IconeGithub } from '@/componentes/interface/IconesMarcas/IconesMarcas';
 import { Revelar } from '@/componentes/interface/Revelar/Revelar';
 import { Visualizador } from '@/componentes/projetos/Visualizador/Visualizador';
 import { projetos } from '@/conteudo/projetos';
-import { DETALHES_VISUALIZACAO } from '@/utilitarios/visualizacao';
+import { DETALHES_VISUALIZACAO, rotuloVisualizacao } from '@/utilitarios/visualizacao';
 import { PaginaNaoEncontrada } from '../PaginaNaoEncontrada/PaginaNaoEncontrada';
 import styles from './PaginaProjeto.module.css';
 
@@ -29,7 +29,8 @@ export function PaginaProjeto() {
 
   const anterior = projetos[(indice - 1 + projetos.length) % projetos.length];
   const proximo = projetos[(indice + 1) % projetos.length];
-  const { rotulo, icone: Icone } = DETALHES_VISUALIZACAO[projeto.visualizacao.tipo];
+  const principal = projeto.visualizacoes[0];
+  const Icone = DETALHES_VISUALIZACAO[principal.tipo].icone;
 
   return (
     <article className={styles.pagina}>
@@ -46,11 +47,15 @@ export function PaginaProjeto() {
             transition={{ duration: 0.6, ease: suave }}
           >
             <span className={styles.selo}>
-              <Icone size={14} /> {rotulo}
+              <Icone size={14} /> {rotuloVisualizacao(principal)}
             </span>
             <span>{projeto.categoria}</span>
-            <span>·</span>
-            <span>{projeto.ano}</span>
+            {projeto.ano && (
+              <>
+                <span>·</span>
+                <span>{projeto.ano}</span>
+              </>
+            )}
           </motion.div>
           <motion.h1
             initial={{ opacity: 0, y: 24, filter: 'blur(8px)' }}
@@ -107,12 +112,12 @@ export function PaginaProjeto() {
               <div className={styles.links}>
                 {projeto.links.aoVivo && (
                   <Botao href={projeto.links.aoVivo} externo icone={<ExternalLink size={16} />}>
-                    Abrir projeto
+                    Abrir em nova aba
                   </Botao>
                 )}
                 {projeto.links.repositorio && (
                   <Botao href={projeto.links.repositorio} externo variante="secundario" icone={<IconeGithub tamanho={16} />}>
-                    Ver código
+                    Ver no GitHub
                   </Botao>
                 )}
               </div>

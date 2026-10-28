@@ -1,7 +1,55 @@
+.abas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.abas button {
+  position: relative;
+  padding: 9px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--cor-borda);
+  background: var(--cor-superficie);
+  font-size: 0.86rem;
+  color: var(--cor-texto-suave);
+  transition: color var(--transicao);
+}
+
+.abas button:hover {
+  color: var(--cor-texto);
+}
+
+.abas .abaAtiva {
+  color: #05060d;
+  border-color: transparent;
+}
+
+.fundoAba {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(110deg, #c4b5fd, #67e8f9 50%, #6ee7b7);
+}
+
+.rotuloAba {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-weight: 600;
+}
+
 .incorporado {
   position: relative;
-  aspect-ratio: 16 / 10;
-  background: #fff;
+  aspect-ratio: 16 / 9.6;
+  background: #0a0b16;
+}
+
+@media (max-width: 640px) {
+  .incorporado {
+    aspect-ratio: 4 / 5;
+  }
 }
 
 .incorporado iframe {
@@ -10,6 +58,24 @@
   width: 100%;
   height: 100%;
   border: 0;
+}
+
+.dica {
+  padding: 10px 16px;
+  border-top: 1px solid var(--cor-borda);
+  font-size: 0.8rem;
+  color: var(--cor-texto-fraco);
+}
+
+.dica a {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--cor-ciano);
+}
+
+.dica a:hover {
+  text-decoration: underline;
 }
 
 .carregando {
@@ -25,35 +91,6 @@
   font-size: 0.85rem;
 }
 
-.codigo {
-  position: relative;
-  max-height: 640px;
-  overflow: auto;
-}
-
-.codigo pre {
-  margin: 0;
-  padding: 28px;
-  font-family: var(--fonte-mono);
-  font-size: 0.82rem;
-  line-height: 1.75;
-  color: #cbd5f5;
-  tab-size: 2;
-}
-
-.linguagem {
-  position: sticky;
-  top: 12px;
-  float: right;
-  margin: 12px 12px 0 0;
-  padding: 4px 10px;
-  border-radius: 6px;
-  font-family: var(--fonte-mono);
-  font-size: 0.72rem;
-  background: rgba(34, 211, 238, 0.12);
-  color: var(--cor-ciano);
-}
-
 .galeria {
   background: #05060d;
 }
@@ -65,7 +102,7 @@
 
 .imagemPrincipal img {
   width: 100%;
-  aspect-ratio: 16 / 10;
+  max-height: 75vh;
   object-fit: contain;
 }
 

@@ -1,30 +1,59 @@
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { Suspense, useState } from 'react';
-import { DEMOS } from '@/demos';
+import { motion } from 'framer-motion';
+import { ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react';
+import { useState } from 'react';
 import type { Projeto, Visualizacao } from '@/tipos/conteudo';
+import { DETALHES_VISUALIZACAO, rotuloVisualizacao } from '@/utilitarios/visualizacao';
 import { JanelaNavegador } from '../JanelaNavegador/JanelaNavegador';
+import { Simulacao } from '../Simulacao/Simulacao';
+import { VisualizadorCodigo } from '../VisualizadorCodigo/VisualizadorCodigo';
 import styles from './Visualizador.module.css';
 
 interface VisualizadorProps {
   projeto: Projeto;
 }
 
-/** Escolhe a forma de exibir o projeto conforme o tipo de visualização cadastrado. */
+/** Janela com abas, uma para cada forma de visualizar o projeto. */
 export function Visualizador({ projeto }: VisualizadorProps) {
-  const { visualizacao } = projeto;
-  const linkExterno = 'url' in visualizacao ? visualizacao.url : projeto.links.aoVivo;
+  const [abaAtiva, setAbaAtiva] = useState(0);
+  const visualizacao = projeto.visualizacoes[abaAtiva];
+  if (!visualizacao) return null;
+
+  const linkExterno = 'url' in visualizacao ? visualizacao.url : undefined;
+  const endereco = linkExterno
+    ? linkExterno.replace(/^https?:\/\//, '')
+    : `gldev.com/projetos/${projeto.slug}${'arquivo' in visualizacao ? `/${visualizacao.arquivo.split('/').pop()}` : ''}`;
 
   return (
-    <JanelaNavegador endereco={enderecoExibido(projeto)} linkExterno={linkExterno}>
-      <ConteudoVisualizacao visualizacao={visualizacao} titulo={projeto.titulo} />
-    </JanelaNavegador>
-  );
-}
+    <div>
+      {projeto.visualizacoes.length > 1 && (
+        <div className={styles.abas} role="tablist" aria-label="Formas de visualizar o projeto">
+          {projeto.visualizacoes.map((item, indice) => {
+            const Icone = DETALHES_VISUALIZACAO[item.tipo].icone;
+            const ativa = indice === abaAtiva;
+            return (
+              <button
+                key={indice}
+                type="button"
+                role="tab"
+                aria-selected={ativa}
+                className={ativa ? styles.abaAtiva : undefined}
+                onClick={() => setAbaAtiva(indice)}
+              >
+                {ativa && <motion.span layoutId="aba-visualizacao" className={styles.fundoAba} />}
+                <span className={styles.rotuloAba}>
+                  <Icone size={15} /> {rotuloVisualizacao(item)}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      )}
 
-function enderecoExibido(projeto: Projeto) {
-  const { visualizacao } = projeto;
-  if ('url' in visualizacao) return visualizacao.url.replace(/^https?:\/\//, '');
-  return `gldev.com/projetos/${projeto.slug}`;
+      <JanelaNavegador endereco={endereco} linkExterno={linkExterno}>
+        <ConteudoVisualizacao key={abaAtiva} visualizacao={visualizacao} titulo={projeto.titulo} />
+      </JanelaNavegador>
+    </div>
+  );
 }
 
 function ConteudoVisualizacao({ visualizacao, titulo }: { visualizacao: Visualizacao; titulo: string }) {
@@ -37,22 +66,9 @@ function ConteudoVisualizacao({ visualizacao, titulo }: { visualizacao: Visualiz
     case 'galeria':
       return <Galeria imagens={visualizacao.imagens} />;
     case 'codigo':
-      return (
-        <div className={styles.codigo}>
-          <span className={styles.linguagem}>{visualizacao.linguagem}</span>
-          <pre>
-            <code>{visualizacao.codigo}</code>
-          </pre>
-        </div>
-      );
-    case 'demo': {
-      const Demo = DEMOS[visualizacao.demo];
-      return (
-        <Suspense fallback={<div className={styles.carregando}>Carregando demonstração…</div>}>
-          <Demo />
-        </Suspense>
-      );
-    }
+      return <VisualizadorCodigo arquivo={visualizacao.arquivo} linguagem={visualizacao.linguagem} />;
+    case 'simulacao':
+      return <Simulacao titulo={titulo} etapas={visualizacao.etapas} />;
   }
 }
 
@@ -65,17 +81,25 @@ function urlVideo(url: string) {
 function Incorporado({ url, titulo }: { url: string; titulo: string }) {
   const [carregou, setCarregou] = useState(false);
   return (
-    <div className={styles.incorporado}>
-      {!carregou && <div className={styles.carregando}>Carregando…</div>}
-      <iframe
-        src={url}
-        title={titulo}
-        loading="lazy"
-        allow="fullscreen; clipboard-write; encrypted-media; picture-in-picture"
-        allowFullScreen
-        onLoad={() => setCarregou(true)}
-      />
-    </div>
+    <>
+      <div className={styles.incorporado}>
+        {!carregou && <div className={styles.carregando}>Carregando…</div>}
+        <iframe
+          src={url}
+          title={titulo}
+          loading="lazy"
+          allow="fullscreen; clipboard-write; encrypted-media; picture-in-picture"
+          allowFullScreen
+          onLoad={() => setCarregou(true)}
+        />
+      </div>
+      <p className={styles.dica}>
+        Não carregou?{' '}
+        <a href={url} target="_blank" rel="noopener noreferrer">
+          Abrir em uma nova aba <ExternalLink size={13} />
+        </a>
+      </p>
+    </>
   );
 }
 

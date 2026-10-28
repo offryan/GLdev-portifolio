@@ -46,23 +46,35 @@ A ordem da lista é a ordem em que aparecem no site.
   cores: ['#8b5cf6', '#22d3ee'],       // cores da arte do cartão
   capa: '/projetos/meu-novo-projeto/capa.png',   // opcional
   links: {
-    repositorio: 'https://github.com/usuario/repo',  // opcional
-    aoVivo: 'https://meuprojeto.com',                // opcional
+    repositorio: 'https://github.com/glucas290/GLdev/tree/main/pasta',  // opcional
+    aoVivo: 'https://meuprojeto.com',                                  // opcional
   },
-  visualizacao: { tipo: 'site', url: 'https://meuprojeto.com' },
+  visualizacoes: [
+    { tipo: 'powerbi', rotulo: 'Painel ao vivo', url: 'https://app.powerbi.com/view?r=...' },
+    { tipo: 'codigo', linguagem: 'Python', arquivo: '/projetos/meu-novo-projeto/script.py' },
+  ],
 },
 ```
 
-### Formas de visualizar um projeto (`visualizacao`)
+### Formas de visualizar um projeto (`visualizacoes`)
 
-| Tipo       | Quando usar                                   | Exemplo |
-| ---------- | --------------------------------------------- | ------- |
-| `site`     | Projeto publicado na internet                 | `{ tipo: 'site', url: 'https://...' }` |
-| `powerbi`  | Relatório do Power BI ("Publicar na Web")     | `{ tipo: 'powerbi', url: 'https://app.powerbi.com/view?r=...' }` |
-| `video`    | Vídeo no YouTube mostrando o projeto          | `{ tipo: 'video', url: 'https://www.youtube.com/watch?v=...' }` |
-| `galeria`  | Prints de telas (dashboards internos, apps)   | `{ tipo: 'galeria', imagens: [{ src: '/projetos/x/1.png', legenda: 'Tela inicial' }] }` |
-| `codigo`   | Mostrar um trecho de código (SQL, Python…)    | `{ tipo: 'codigo', linguagem: 'Python', codigo: \`print('oi')\` }` |
-| `demo`     | Demonstração interativa feita no próprio site | `{ tipo: 'demo', demo: 'painel-operacoes' }` |
+Cada item da lista vira uma **aba** na página do projeto (a primeira abre por padrão).
+O nome da aba pode ser trocado com `rotulo: 'Nome da aba'`.
+
+| Tipo        | Quando usar                                   | Exemplo |
+| ----------- | --------------------------------------------- | ------- |
+| `powerbi`   | Relatório do Power BI ("Publicar na Web")     | `{ tipo: 'powerbi', url: 'https://app.powerbi.com/view?r=...' }` |
+| `site`      | Projeto publicado na internet                 | `{ tipo: 'site', url: 'https://...' }` |
+| `video`     | Vídeo no YouTube mostrando o projeto          | `{ tipo: 'video', url: 'https://www.youtube.com/watch?v=...' }` |
+| `galeria`   | Prints de telas                               | `{ tipo: 'galeria', imagens: [{ src: '/projetos/x/1.png', legenda: 'Tela inicial' }] }` |
+| `codigo`    | Mostrar um arquivo de código                  | `{ tipo: 'codigo', linguagem: 'Python', arquivo: '/projetos/x/script.py' }` |
+| `simulacao` | Mostrar um robô executando passo a passo      | `{ tipo: 'simulacao', etapas: [{ nome: 'Ler planilha', inicio: 'Abrindo…', fim: 'Planilha lida' }] }` |
+
+**Código:** copie o arquivo para `public/projetos/<slug-do-projeto>/` e aponte `arquivo` para ele.
+Linguagens com cores: `'Python'`, `'SQL'`, `'DAX'`, `'Power Query (M)'`, `'JavaScript'` (ou `'Texto'` sem cores).
+Antes de publicar, confira se o arquivo não tem senhas, endereços internos ou dados de clientes.
+
+**Simulação:** cada etapa tem `nome` (aparece na lista), `inicio` e `fim` (as duas mensagens do log).
 
 **Dica para Power BI:** no Power BI Service, abra o relatório → *Arquivo* → *Inserir relatório* → *Publicar na Web (público)* e copie o link. Use somente com dados que possam ser públicos.
 
