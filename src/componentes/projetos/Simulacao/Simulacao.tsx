@@ -63,7 +63,7 @@ export function Simulacao({ titulo, etapas }: SimulacaoProps) {
     <div className={styles.simulacao}>
       <div className={styles.cabecalho}>
         <div>
-          <h3>{titulo}</h3>
+          <h2>{titulo}</h2>
           <p>Execute o robô e acompanhe cada etapa do processo.</p>
         </div>
         <span className={styles.aviso}>simulação ilustrativa</span>
@@ -72,7 +72,7 @@ export function Simulacao({ titulo, etapas }: SimulacaoProps) {
       <div className={styles.layout}>
         <div className={styles.painel}>
           <div className={styles.topoEtapas}>
-            <h4>Etapas</h4>
+            <h3>Etapas</h3>
             {etapaAtual === -1 ? (
               <button type="button" className={styles.botaoExecutar} onClick={executar}>
                 <Play size={16} /> Executar robô

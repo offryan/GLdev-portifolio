@@ -44,16 +44,19 @@ export function VisualizadorCodigo({ arquivo, linguagem }: VisualizadorCodigoPro
   if (erro) return <div className={styles.mensagem}>Não foi possível carregar {arquivo}.</div>;
   if (codigo === null) return <div className={styles.mensagem}>Carregando código…</div>;
 
+  const nomeArquivo = arquivo.split('/').pop();
+
   return (
     <div className={styles.codigo}>
       <div className={styles.barra}>
-        <span className={styles.arquivo}>{arquivo.split('/').pop()}</span>
+        <span className={styles.arquivo}>{nomeArquivo}</span>
         <span className={styles.linguagem}>{linguagem}</span>
         <button type="button" onClick={copiar} className={styles.copiar}>
           {copiado ? <Check size={14} /> : <Copy size={14} />} {copiado ? 'Copiado' : 'Copiar'}
         </button>
       </div>
-      <div className={styles.rolagem}>
+      {/* Focável para que a área possa ser rolada pelo teclado */}
+      <div className={styles.rolagem} tabIndex={0} role="region" aria-label={`Código do arquivo ${nomeArquivo}`}>
         <div className={styles.numeros} aria-hidden="true">
           {Array.from({ length: linhas }, (_, i) => (
             <span key={i}>{i + 1}</span>

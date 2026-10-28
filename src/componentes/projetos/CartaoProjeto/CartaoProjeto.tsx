@@ -41,7 +41,7 @@ export function CartaoProjeto({ projeto, indice }: CartaoProjetoProps) {
     >
       <div className={styles.capa}>
         {projeto.capa ? (
-          <img src={projeto.capa} alt="" loading="lazy" />
+          <img src={projeto.capa} alt="" loading="lazy" decoding="async" width={1340} height={765} />
         ) : (
           <div className={styles.arte}>
             <span className={styles.numero}>{String(indice + 1).padStart(2, '0')}</span>
