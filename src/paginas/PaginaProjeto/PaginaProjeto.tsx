@@ -1,12 +1,13 @@
 import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight, ExternalLink } from 'lucide-react';
-import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Botao } from '@/componentes/interface/Botao/Botao';
 import { IconeGithub } from '@/componentes/interface/IconesMarcas/IconesMarcas';
 import { Revelar } from '@/componentes/interface/Revelar/Revelar';
+import { DiagramaFluxo } from '@/componentes/projetos/DiagramaFluxo/DiagramaFluxo';
 import { Visualizador } from '@/componentes/projetos/Visualizador/Visualizador';
 import { projetos } from '@/conteudo/projetos';
+import { useMetadados } from '@/ganchos/useMetadados';
 import { DETALHES_VISUALIZACAO, rotuloVisualizacao } from '@/utilitarios/visualizacao';
 import { PaginaNaoEncontrada } from '../PaginaNaoEncontrada/PaginaNaoEncontrada';
 import styles from './PaginaProjeto.module.css';
@@ -18,12 +19,7 @@ export function PaginaProjeto() {
   const indice = projetos.findIndex((p) => p.slug === slug);
   const projeto = projetos[indice];
 
-  useEffect(() => {
-    if (projeto) document.title = `${projeto.titulo} — George Lucas | gldev`;
-    return () => {
-      document.title = 'George Lucas — Dados, BI e Automação | gldev';
-    };
-  }, [projeto]);
+  useMetadados(projeto && { titulo: `${projeto.titulo} — George Lucas | gldev`, descricao: projeto.resumo });
 
   if (!projeto) return <PaginaNaoEncontrada />;
 
@@ -83,47 +79,92 @@ export function PaginaProjeto() {
           <Visualizador projeto={projeto} />
         </motion.div>
 
-        <div className={styles.detalhes}>
-          <Revelar className={styles.descricao}>
-            <h2>Sobre o projeto</h2>
-            {projeto.descricao.map((paragrafo) => (
-              <p key={paragrafo}>{paragrafo}</p>
-            ))}
+        <section className={styles.estudo} aria-labelledby="titulo-estudo">
+          <Revelar>
+            <h2 id="titulo-estudo" className={styles.tituloEstudo}>
+              Estudo de <span className="texto-gradiente">caso</span>
+            </h2>
           </Revelar>
 
-          <Revelar atraso={0.15} className={styles.lateral}>
-            <div className={styles.resultados}>
-              {projeto.resultados.map((resultado) => (
-                <div key={resultado.rotulo}>
-                  <strong className="texto-gradiente">{resultado.valor}</strong>
-                  <span>{resultado.rotulo}</span>
-                </div>
-              ))}
+          <div className={styles.bloco}>
+            <Revelar className={styles.rotuloBloco}>
+              <span>01</span> O problema
+            </Revelar>
+            <Revelar atraso={0.1}>
+              <p className={styles.problema}>{projeto.problema}</p>
+            </Revelar>
+          </div>
+
+          <div className={styles.bloco}>
+            <Revelar className={styles.rotuloBloco}>
+              <span>02</span> A solução
+            </Revelar>
+            <div>
+              <ol className={styles.passos}>
+                {projeto.solucao.map((passo, indice) => (
+                  <motion.li
+                    key={passo}
+                    initial={{ opacity: 0, x: 32 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true, margin: '-10% 0px' }}
+                    transition={{ duration: 0.7, delay: indice * 0.08, ease: suave }}
+                  >
+                    {passo}
+                  </motion.li>
+                ))}
+              </ol>
+              <h3 className={styles.subtitulo}>Como funciona</h3>
+              <DiagramaFluxo etapas={projeto.fluxo} />
             </div>
+          </div>
 
-            <h3>Tecnologias</h3>
-            <ul className={styles.tecnologias}>
-              {projeto.tecnologias.map((tecnologia) => (
-                <li key={tecnologia}>{tecnologia}</li>
-              ))}
-            </ul>
+          <div className={styles.bloco}>
+            <Revelar className={styles.rotuloBloco}>
+              <span>03</span> O resultado
+            </Revelar>
+            <div>
+              <Revelar>
+                <p className={styles.impacto}>{projeto.impacto}</p>
+              </Revelar>
+              <Revelar atraso={0.1} className={styles.resultados}>
+                {projeto.resultados.map((resultado) => (
+                  <div key={resultado.rotulo}>
+                    <strong className="texto-gradiente">{resultado.valor}</strong>
+                    <span>{resultado.rotulo}</span>
+                  </div>
+                ))}
+              </Revelar>
+              <Revelar atraso={0.15}>
+                <h3 className={styles.subtitulo}>Tecnologias</h3>
+                <ul className={styles.tecnologias}>
+                  {projeto.tecnologias.map((tecnologia) => (
+                    <li key={tecnologia}>{tecnologia}</li>
+                  ))}
+                </ul>
 
-            {(projeto.links.aoVivo || projeto.links.repositorio) && (
-              <div className={styles.links}>
-                {projeto.links.aoVivo && (
-                  <Botao href={projeto.links.aoVivo} externo icone={<ExternalLink size={16} />}>
-                    Abrir em nova aba
-                  </Botao>
+                {(projeto.links.aoVivo || projeto.links.repositorio) && (
+                  <div className={styles.links}>
+                    {projeto.links.aoVivo && (
+                      <Botao href={projeto.links.aoVivo} externo icone={<ExternalLink size={16} />}>
+                        Abrir em nova aba
+                      </Botao>
+                    )}
+                    {projeto.links.repositorio && (
+                      <Botao
+                        href={projeto.links.repositorio}
+                        externo
+                        variante="secundario"
+                        icone={<IconeGithub tamanho={16} />}
+                      >
+                        Ver no GitHub
+                      </Botao>
+                    )}
+                  </div>
                 )}
-                {projeto.links.repositorio && (
-                  <Botao href={projeto.links.repositorio} externo variante="secundario" icone={<IconeGithub tamanho={16} />}>
-                    Ver no GitHub
-                  </Botao>
-                )}
-              </div>
-            )}
-          </Revelar>
-        </div>
+              </Revelar>
+            </div>
+          </div>
+        </section>
 
         {projetos.length > 1 && (
           <nav className={styles.navegacao} aria-label="Outros projetos">

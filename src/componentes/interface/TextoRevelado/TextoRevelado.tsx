@@ -33,11 +33,15 @@ interface PalavraProps {
   faixa: [number, number];
 }
 
+// A palavra "apagada" mantém contraste suficiente para leitura (texto grande, mínimo 3:1)
+const COR_APAGADA = '#646985';
+const COR_ACESA = '#eef0ff';
+
 function Palavra({ children, progresso, faixa }: PalavraProps) {
-  const opacidade = useTransform(progresso, faixa, [0.14, 1]);
+  const cor = useTransform(progresso, faixa, [COR_APAGADA, COR_ACESA]);
   return (
     <span className={styles.palavra}>
-      <motion.span style={{ opacity: opacidade }}>{children}</motion.span>{' '}
+      <motion.span style={{ color: cor }}>{children}</motion.span>{' '}
     </span>
   );
 }

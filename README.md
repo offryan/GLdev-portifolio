@@ -40,14 +40,19 @@ Abra o endereço que aparecer no terminal (normalmente http://localhost:5173).
 | `npm run dev`       | Abre o site em modo de desenvolvimento        |
 | `npm run build`     | Verifica o código e gera a versão final em `dist/` |
 | `npm run preview`   | Mostra localmente a versão final gerada       |
+| `npm run imagens`   | Gera de novo as imagens de prévia dos links   |
 
 ## 🗂️ Organização das pastas
 
 ```
 ├── docs/                    Guias (como editar, publicar e o design do site)
+├── plugins/                 Gera no build as prévias de cada projeto e o sitemap.xml
+├── scripts/                 Gerador das imagens de prévia (npm run imagens)
 ├── public/                  Arquivos servidos como estão
 │   ├── documentos/          Currículo em PDF
+│   ├── og/                  Imagens de prévia dos links (LinkedIn, WhatsApp…)
 │   ├── projetos/            Imagens e arquivos de código de cada projeto
+│   ├── robots.txt           Instruções para buscadores
 │   └── favicon.svg          Ícone da aba do navegador
 └── src/
     ├── conteudo/            ✏️ TEXTOS DO SITE — edite aqui
@@ -58,7 +63,7 @@ Abra o endereço que aparecer no terminal (normalmente http://localhost:5173).
     │   ├── estrutura/       Menu, rodapé e barra de progresso
     │   ├── fundo/           Fundo animado (auroras + constelação)
     │   ├── interface/       Peças reutilizáveis: logo, botões, animações
-    │   └── projetos/        Cartão, visualizador com abas, simulação e leitor de código
+    │   └── projetos/        Cartão, visualizador com abas, simulação, leitor de código e diagrama
     ├── ganchos/             Comportamentos reutilizáveis (React hooks)
     ├── utilitarios/         Funções auxiliares
     ├── estilos/             Cores, fontes e estilos globais
