@@ -1,6 +1,6 @@
 # gldev — Portfólio de George Lucas
 
-Portfólio de **George Lucas**, analista de dados e especialista em automação, feito para o domínio **gldev.com**.
+Portfólio de **George Lucas**, analista de dados e especialista em automação, feito para o domínio **gldev.com.br**.
 
 Cada projeto tem uma página própria onde quem visita pode **testar ou visualizar** o trabalho, em abas: painel do Power BI ao vivo, simulação passo a passo dos robôs, capturas de tela, vídeos, sites incorporados e o código-fonte com destaque de sintaxe.
 
@@ -75,7 +75,7 @@ Cada componente fica em sua própria pasta, com o código (`.tsx`) e o estilo (`
 
 ## 🌐 Publicação
 
-Veja **[docs/PUBLICACAO.md](docs/PUBLICACAO.md)** para colocar o site no ar com o domínio gldev.com.
+Veja **[docs/PUBLICACAO.md](docs/PUBLICACAO.md)** para colocar o site no ar com o domínio gldev.com.br.
 
 ## 🛠️ Tecnologias
 
