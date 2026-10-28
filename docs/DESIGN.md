@@ -11,7 +11,7 @@ como informação sendo revelada.
 ## Marca
 
 - **Monograma:** "GL" desenhado em traço contínuo dentro de um quadrado arredondado com borda em gradiente.
-- **Wordmark:** `gl` (negrito) + `dev` (regular, cor suave) + `.` em ciano — referência ao domínio gldev.com.
+- **Wordmark:** `gl` (negrito) + `dev` (regular, cor suave) + `.` em ciano — referência ao domínio gldev.com.br.
 - Arquivos: `src/componentes/interface/Logo/Logo.tsx` e `public/favicon.svg`.
 
 ## Cores

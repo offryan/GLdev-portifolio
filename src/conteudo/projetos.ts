@@ -10,7 +10,7 @@ const PAINEL_POWER_BI =
  * Cada bloco { ... } é um projeto. Para adicionar um novo, copie um bloco
  * inteiro, cole na lista e troque os textos. A ordem aqui é a ordem no site.
  *
- * - slug:  nome usado no endereço (gldev.com/projetos/<slug>). Sem espaços nem acentos.
+ * - slug:  nome usado no endereço (gldev.com.br/projetos/<slug>). Sem espaços nem acentos.
  * - problema / solucao / impacto: os três blocos do estudo de caso.
  * - fluxo: caixas do diagrama "como funciona". Ícones: 'api', 'banco', 'planilha',
  *   'robo', 'email', 'painel', 'regras', 'arquivo', 'navegador', 'certificado', 'nuvem'.
