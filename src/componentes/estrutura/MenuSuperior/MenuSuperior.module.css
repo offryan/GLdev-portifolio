@@ -5,14 +5,29 @@
   right: 0;
   z-index: 50;
   height: var(--altura-menu);
-  transition: background var(--transicao), border-color var(--transicao), backdrop-filter var(--transicao);
-  border-bottom: 1px solid transparent;
 }
 
-.solido {
+/*
+ * O fundo de vidro fica num pseudo-elemento: um backdrop-filter direto no
+ * <header> prenderia o painel mobile (position: fixed) dentro da barra.
+ */
+.menu::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-bottom: 1px solid transparent;
+  transition: background var(--transicao), border-color var(--transicao);
+}
+
+.solido::before {
   background: rgba(5, 6, 13, 0.65);
   backdrop-filter: blur(18px) saturate(160%);
   border-bottom-color: var(--cor-borda);
+}
+
+.aberto::before {
+  background: rgba(5, 6, 13, 0.98);
 }
 
 .conteudo {
@@ -77,24 +92,38 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(5, 6, 13, 0.92);
-  backdrop-filter: blur(20px);
+  overflow-y: auto;
+  background: radial-gradient(ellipse at 100% 0%, rgba(139, 92, 246, 0.18), transparent 55%),
+    radial-gradient(ellipse at 0% 100%, rgba(34, 211, 238, 0.12), transparent 55%), rgba(5, 6, 13, 0.98);
+  backdrop-filter: blur(24px);
 }
 
 .painelMobile a {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 16px;
-  padding: 16px 0;
+  padding: 18px 4px;
   border-bottom: 1px solid var(--cor-borda);
   font-family: var(--fonte-titulo);
-  font-size: 2rem;
+  font-size: 1.75rem;
   font-weight: 600;
+  color: var(--cor-texto);
+  transition: color var(--transicao), padding var(--transicao);
+}
+
+.painelMobile a:hover,
+.painelMobile a:focus-visible {
+  color: var(--cor-ciano);
+  padding-left: 10px;
 }
 
 .painelMobile span {
   font-family: var(--fonte-mono);
   font-size: 0.8rem;
+  color: var(--cor-ciano);
+}
+
+.painelMobile .ativoMobile {
   color: var(--cor-ciano);
 }
 
