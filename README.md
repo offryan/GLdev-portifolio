@@ -70,33 +70,6 @@ Medido com o Lighthouse na versão de produção:
 - **SEO:** metatags e imagem de prévia por projeto, `sitemap.xml`, `robots.txt` e dados estruturados `schema.org/Person`.
 - **Desempenho:** páginas carregadas sob demanda, imagens em WebP, fontes pré-carregadas e animações leves no celular.
 
-## 📁 Projetos em destaque
-
-| Projeto | Categoria | O que dá para ver no site |
-| --- | --- | --- |
-| KPI Diário – Armazém | Business Intelligence | Painel Power BI ao vivo, capturas, medidas DAX e Power Query |
-| Pipeline de Vistorias Aduaneiras | Pipeline de dados | Simulação do robô e regras de negócio em Python |
-| Monitor de DTA – Gate-in e Integridade | Automação (RPA) | Simulação e o robô do Siscomex |
-| Consulta de Perdimento – Siscarga/Siscomex | Automação (RPA) | Simulação e a orquestração |
-| Consulta de DUIMP – Portal Único | Integração via API | Simulação e o cliente da API com certificado digital |
-| Monitor de Programação de Navios | Automação (RPA) | Simulação e o script completo |
-
-## ✏️ Quero só mudar textos, projetos ou fotos
-
-Você **não precisa entender de programação**. Todo o conteúdo do site fica em uma única pasta:
-
-```
-src/conteudo/
-├── perfil.ts         → nome, cargo, resumo, números de destaque, contatos
-├── habilidades.ts    → cartões da seção "Habilidades"
-├── projetos.ts       → projetos, estudos de caso e formas de visualização
-├── experiencias.ts   → linha do tempo profissional
-├── formacao.ts       → formação acadêmica e certificações
-└── site.ts           → endereço do site e textos para o Google
-```
-
-O passo a passo completo está em **[docs/COMO-EDITAR.md](docs/COMO-EDITAR.md)**.
-
 ## 🚀 Rodando no computador
 
 Pré-requisito: [Node.js](https://nodejs.org) 20 ou mais recente.
