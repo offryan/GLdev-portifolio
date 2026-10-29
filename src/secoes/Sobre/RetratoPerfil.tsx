@@ -27,7 +27,7 @@ export function RetratoPerfil() {
           <motion.img
             src={perfil.foto.src}
             srcSet={`${perfil.foto.srcPequena} 480w, ${perfil.foto.src} 800w`}
-            sizes="(max-width: 900px) 320px, 400px"
+            sizes="(max-width: 900px) 250px, 310px"
             alt={perfil.foto.descricao}
             width={800}
             height={1067}
@@ -43,7 +43,7 @@ export function RetratoPerfil() {
         <figcaption className={styles.legenda}>
           <span className={styles.ponto} aria-hidden="true" />
           <span>
-            <strong>{perfil.nomeCompleto}</strong>
+            <strong>{perfil.nome}</strong>
             <small>{perfil.localizacao}</small>
           </span>
         </figcaption>
