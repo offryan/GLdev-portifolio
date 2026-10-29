@@ -50,7 +50,7 @@ function dadosEstruturados() {
     jobTitle: perfil.cargo,
     description: perfil.chamada,
     url: site.url,
-    image: `${site.url}${site.imagemCompartilhamento}`,
+    image: `${site.url}${perfil.foto.src}`,
     email: `mailto:${perfil.contato.email}`,
     address: { '@type': 'PostalAddress', addressLocality: 'Rio de Janeiro', addressRegion: 'RJ', addressCountry: 'BR' },
     sameAs: [perfil.contato.linkedin, perfil.contato.github].filter(Boolean),

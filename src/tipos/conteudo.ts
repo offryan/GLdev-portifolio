@@ -27,6 +27,13 @@ export interface Perfil {
     whatsapp: string;
   };
   curriculo: string;
+  foto: {
+    /** Versão grande (telas de computador e celulares de alta resolução). */
+    src: string;
+    /** Versão menor, mais leve, para telas pequenas. */
+    srcPequena: string;
+    descricao: string;
+  };
 }
 
 export type IconeHabilidade = 'dados' | 'graficos' | 'automacao' | 'apps' | 'negocios';

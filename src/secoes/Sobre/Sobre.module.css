@@ -2,10 +2,21 @@
   padding: 140px 0;
 }
 
+.conteudo {
+  display: grid;
+  grid-template-columns: minmax(240px, 310px) 1fr;
+  align-items: center;
+  gap: 72px;
+}
+
 .paragrafos {
   display: grid;
   gap: 40px;
-  max-width: 980px;
+}
+
+/* Ao lado da foto, o texto fica um pouco menor para manter o equilíbrio */
+.paragrafos p {
+  font-size: clamp(1.35rem, 2.3vw, 2rem);
 }
 
 .numeros {
@@ -42,6 +53,13 @@
 .numero span {
   color: var(--cor-texto-suave);
   font-size: 0.95rem;
+}
+
+@media (max-width: 900px) {
+  .conteudo {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
 }
 
 @media (max-width: 860px) {
