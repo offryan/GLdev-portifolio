@@ -53,6 +53,19 @@ export interface Formacao {
   ano: string;
 }
 
+/** Certificação exibida com selo, no topo do site e em destaque na seção Formação. */
+export interface CertificacaoDestaque {
+  titulo: string;
+  codigo: string;
+  emissor: string;
+  ano: string;
+  imagem: string;
+  descricao: string;
+  competencias: string[];
+  /** Link público para verificar a credencial (ex.: Microsoft Learn). Vazio esconde o botão. */
+  link: string;
+}
+
 export type LinguagemCodigo = 'Python' | 'SQL' | 'DAX' | 'Power Query (M)' | 'JavaScript' | 'Texto';
 
 /** Um passo da simulação de um robô: o que ele faz e o que registra no log. */

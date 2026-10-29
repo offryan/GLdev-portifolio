@@ -127,6 +127,7 @@
 }
 
 .visual {
+  position: relative;
   perspective: 1200px;
 }
 

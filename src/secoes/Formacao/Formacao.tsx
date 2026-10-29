@@ -4,6 +4,7 @@ import { Revelar } from '@/componentes/interface/Revelar/Revelar';
 import { TituloSecao } from '@/componentes/interface/TituloSecao/TituloSecao';
 import { certificacoes, formacao } from '@/conteudo/formacao';
 import type { Formacao as ItemFormacao } from '@/tipos/conteudo';
+import { CartaoCertificacao } from './CartaoCertificacao';
 import styles from './Formacao.module.css';
 
 export function Formacao() {
@@ -12,9 +13,11 @@ export function Formacao() {
       <div className="container">
         <TituloSecao numero="05" rotulo="Formação" titulo="Aprendizado" destaque="contínuo." />
 
+        <CartaoCertificacao />
+
         <div className={styles.colunas}>
           <Lista titulo="Formação acadêmica" icone={<GraduationCap size={20} />} itens={formacao} />
-          <Lista titulo="Certificações" icone={<Award size={20} />} itens={certificacoes} atraso={0.15} />
+          <Lista titulo="Outras certificações" icone={<Award size={20} />} itens={certificacoes} atraso={0.15} />
         </div>
       </div>
     </section>
