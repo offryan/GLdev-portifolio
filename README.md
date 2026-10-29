@@ -35,6 +35,7 @@ Os projetos vêm do repositório [glucas290/GLdev](https://github.com/glucas290/
   - **Simulação dos robôs**: etapas executando com log em tempo real
   - **Código real** com destaque de sintaxe (Python, SQL, DAX e Power Query M)
 - **Estudo de caso:** problema → solução → resultado, com diagrama "Como funciona" em que os dados percorrem o fluxo.
+- **Certificação Microsoft PL-300 em destaque:** selo oficial flutuando no topo do site e cartão especial com as competências avaliadas.
 - **Prévia bonita ao compartilhar:** o site e cada projeto têm imagem e textos próprios no LinkedIn, no WhatsApp e no Google.
 - **Para qualquer pessoa:** todos os textos ficam em uma pasta só, com guia em português para quem não programa.
 
@@ -54,6 +55,14 @@ Os projetos vêm do repositório [glucas290/GLdev](https://github.com/glucas290/
   <tr>
     <td align="center"><sub>Estudo de caso com diagrama animado</sub></td>
     <td align="center"><sub>Versão para celular</sub></td>
+  </tr>
+  <tr>
+    <td width="50%"><img src="docs/img/certificacao.jpg" alt="Cartão de destaque da certificação Microsoft PL-300" /></td>
+    <td width="50%"><img src="docs/img/contato.jpg" alt="Seção de contato com a foto do George" /></td>
+  </tr>
+  <tr>
+    <td align="center"><sub>Certificação Microsoft PL-300 em destaque</sub></td>
+    <td align="center"><sub>Contato com a foto do George</sub></td>
   </tr>
 </table>
 
