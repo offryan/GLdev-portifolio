@@ -10,7 +10,7 @@ import styles from './RetratoPerfil.module.css';
 export function RetratoPerfil() {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
-  const deslocamento = useTransform(scrollYProgress, [0, 1], ['-6%', '6%']);
+  const deslocamento = useTransform(scrollYProgress, [0, 1], ['0%', '-7%']);
 
   return (
     <div ref={ref} className={styles.envoltorio}>
