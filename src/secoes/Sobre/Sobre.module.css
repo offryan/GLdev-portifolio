@@ -4,7 +4,7 @@
 
 .conteudo {
   display: grid;
-  grid-template-columns: minmax(280px, 400px) 1fr;
+  grid-template-columns: minmax(240px, 310px) 1fr;
   align-items: center;
   gap: 72px;
 }
