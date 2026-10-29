@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { Botao } from '@/componentes/interface/Botao/Botao';
 import { IconeGithub, IconeLinkedin } from '@/componentes/interface/IconesMarcas/IconesMarcas';
 import { perfil } from '@/conteudo/perfil';
+import { SeloCertificacao } from '@/componentes/interface/SeloCertificacao/SeloCertificacao';
 import { TerminalAnimado } from './TerminalAnimado';
 import styles from './Abertura.module.css';
 
@@ -143,6 +144,7 @@ export function Abertura() {
           transition={{ delay: 0.6, duration: 1.2, ease: suave }}
         >
           <TerminalAnimado />
+          <SeloCertificacao />
         </motion.div>
       </div>
 

@@ -1,0 +1,174 @@
+.envoltorio {
+  margin-bottom: 28px;
+}
+
+.cartao {
+  position: relative;
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  align-items: center;
+  gap: 48px;
+  padding: 44px 48px;
+  border-radius: 24px;
+  overflow: hidden;
+  background: radial-gradient(ellipse at 15% 50%, rgba(56, 152, 236, 0.28), transparent 55%),
+    radial-gradient(ellipse at 100% 0%, rgba(139, 92, 246, 0.2), transparent 50%), rgba(10, 11, 22, 0.7);
+  border: 1px solid rgba(56, 152, 236, 0.45);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 30px 80px -30px rgba(56, 152, 236, 0.55);
+}
+
+/* Faixa de luz que atravessa o cartão de tempos em tempos */
+.faixaLuz {
+  position: absolute;
+  inset: -50% auto -50% -30%;
+  width: 18%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), transparent);
+  transform: rotate(18deg);
+  animation: atravessar 6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.palco {
+  --rx: 0deg;
+  --ry: 0deg;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 800px;
+}
+
+.anel {
+  position: absolute;
+  width: 92%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, rgba(56, 152, 236, 0.7), rgba(52, 211, 153, 0.5), rgba(139, 92, 246, 0.6), rgba(56, 152, 236, 0.7));
+  filter: blur(26px);
+  opacity: 0.6;
+  animation: girar 8s linear infinite;
+}
+
+.selo {
+  position: relative;
+  width: 100%;
+  max-width: 230px;
+  height: auto;
+  transform: rotateX(var(--rx)) rotateY(var(--ry));
+  transition: transform 0.2s ease-out;
+  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.6));
+  animation: flutuar 6s ease-in-out infinite;
+}
+
+.texto {
+  position: relative;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--fonte-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cor-texto-suave);
+  margin-bottom: 14px;
+}
+
+.codigo {
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-weight: 700;
+  color: #05060d;
+  background: linear-gradient(110deg, #7dd3fc, #38bdf8 50%, #6ee7b7);
+}
+
+.texto h3 {
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  line-height: 1.15;
+  margin-bottom: 14px;
+}
+
+.texto p {
+  color: var(--cor-texto-suave);
+  font-size: 1.02rem;
+  max-width: 620px;
+}
+
+.competencias {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  list-style: none;
+  margin: 24px 0 0;
+  padding: 0;
+  max-width: 560px;
+}
+
+.competencias li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  background: rgba(56, 152, 236, 0.08);
+  border: 1px solid rgba(56, 152, 236, 0.25);
+}
+
+.competencias svg {
+  flex-shrink: 0;
+  color: #7dd3fc;
+}
+
+.acoes {
+  margin-top: 26px;
+}
+
+@keyframes atravessar {
+  0%,
+  55% {
+    left: -30%;
+  }
+  100% {
+    left: 130%;
+  }
+}
+
+@keyframes girar {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes flutuar {
+  50% {
+    translate: 0 -8px;
+  }
+}
+
+@media (max-width: 860px) {
+  .cartao {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding: 32px 24px;
+    text-align: center;
+  }
+  .selo {
+    max-width: 180px;
+  }
+  .meta {
+    justify-content: center;
+  }
+  .texto p {
+    margin: 0 auto;
+  }
+  .competencias {
+    grid-template-columns: 1fr;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+  }
+}
