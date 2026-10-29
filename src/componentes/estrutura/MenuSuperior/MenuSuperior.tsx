@@ -50,7 +50,7 @@ export function MenuSuperior() {
   }
 
   return (
-    <header className={`${styles.menu} ${rolou || aberto ? styles.solido : ''}`}>
+    <header className={`${styles.menu} ${rolou || aberto ? styles.solido : ''} ${aberto ? styles.aberto : ''}`}>
       <nav className={`container ${styles.conteudo}`} aria-label="Principal">
         <Link
           to="/"
@@ -103,7 +103,11 @@ export function MenuSuperior() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.05 * indice }}
               >
-                <a href={`/#${secao.id}`} onClick={(e) => irPara(e, secao.id)}>
+                <a
+                  href={`/#${secao.id}`}
+                  onClick={(e) => irPara(e, secao.id)}
+                  className={naInicial && secaoAtiva === secao.id ? styles.ativoMobile : undefined}
+                >
                   <span>0{indice + 1}</span>
                   {secao.rotulo}
                 </a>
