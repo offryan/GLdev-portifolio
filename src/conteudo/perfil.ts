@@ -44,4 +44,11 @@ export const perfil: Perfil = {
 
   // Arquivo dentro de public/documentos
   curriculo: '/documentos/curriculo-george-lucas.pdf',
+
+  // Foto da seção "Sobre" (arquivos em public/perfil, formato retrato 3:4)
+  foto: {
+    src: '/perfil/george-lucas-800.webp',
+    srcPequena: '/perfil/george-lucas-480.webp',
+    descricao: 'Retrato de George Lucas em estúdio, de camiseta preta e fundo escuro',
+  },
 };
