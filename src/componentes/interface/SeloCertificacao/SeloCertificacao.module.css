@@ -1,0 +1,76 @@
+.selo {
+  position: absolute;
+  top: -84px;
+  right: -52px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 132px;
+  transform-origin: center;
+}
+
+.selo img {
+  position: relative;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.55)) drop-shadow(0 0 22px rgba(56, 152, 236, 0.55));
+  animation: flutuar-selo 5s ease-in-out infinite;
+  transition: transform var(--transicao), filter var(--transicao);
+}
+
+.selo:hover img {
+  transform: scale(1.08) rotate(-6deg);
+  filter: drop-shadow(0 18px 34px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 34px rgba(56, 152, 236, 0.85));
+}
+
+/* Halo de luz girando atrás do selo */
+.brilho {
+  position: absolute;
+  top: 8%;
+  left: 8%;
+  width: 84%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, transparent, rgba(56, 152, 236, 0.55), transparent 35%, rgba(52, 211, 153, 0.45), transparent 70%);
+  filter: blur(14px);
+  animation: girar-halo 6s linear infinite;
+}
+
+.rotulo {
+  position: relative;
+  margin-top: -6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  white-space: nowrap;
+  color: #e0f2fe;
+  background: rgba(5, 6, 13, 0.85);
+  border: 1px solid rgba(56, 152, 236, 0.55);
+  box-shadow: 0 6px 18px -6px rgba(56, 152, 236, 0.7);
+}
+
+.rotulo strong {
+  color: #7dd3fc;
+}
+
+@keyframes flutuar-selo {
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes girar-halo {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 960px) {
+  .selo {
+    top: -70px;
+    right: 0;
+    width: 92px;
+  }
+}

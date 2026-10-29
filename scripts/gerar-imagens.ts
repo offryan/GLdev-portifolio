@@ -97,7 +97,7 @@ function htmlInicial() {
       <p class="resumo"><span class="grad" style="font-weight:600">${perfil.cargo}.</span> ${perfil.chamada}</p>
       <div class="chips">${chips}</div>
     </div>
-    <div class="lado"><div class="cartao terminal">
+    <div class="lado" style="position: relative"><img src="${imagem('certificacoes/pl-300.webp')}" style="position: absolute; top: 40px; right: -28px; width: 150px; transform: rotate(8deg); filter: drop-shadow(0 12px 24px rgba(0,0,0,.6)) drop-shadow(0 0 24px rgba(56,152,236,.6)); z-index: 2"><div class="cartao terminal">
       <div class="cmd">$ python gldev.py</div>
       <div>› API sincronizada</div>
       <div>› SLA em dias úteis</div>

@@ -119,7 +119,8 @@ A mais recente primeiro. Use `atual: true` no emprego atual (o marcador fica ver
 
 ## 5. Formação e certificações — `formacao.ts`
 
-Duas listas simples com `titulo`, `instituicao` e `ano`.
+- `certificacaoDestaque`: a certificação principal (hoje, a **PL-300 da Microsoft**). O selo aparece flutuando no topo do site e num cartão especial na seção Formação. Preencha `link` com o endereço público da credencial (Microsoft Learn → Perfil → Credenciais → Compartilhar) para mostrar o botão **Verificar credencial**. A imagem do selo fica em `public/certificacoes/`.
+- `formacao` e `certificacoes`: duas listas simples com `titulo`, `instituicao` e `ano`.
 
 ---
 
