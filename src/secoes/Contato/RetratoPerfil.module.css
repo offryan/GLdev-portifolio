@@ -1,7 +1,7 @@
 .envoltorio {
   position: relative;
   width: 100%;
-  max-width: 310px;
+  max-width: 290px;
 }
 
 /* Luz colorida atrás da foto, no tom das auroras do fundo */
@@ -150,7 +150,7 @@
 
 @media (max-width: 900px) {
   .envoltorio {
-    max-width: 250px;
+    max-width: 240px;
     margin: 0 auto;
   }
 }

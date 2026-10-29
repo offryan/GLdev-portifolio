@@ -4,7 +4,7 @@ import { perfil } from '@/conteudo/perfil';
 import styles from './RetratoPerfil.module.css';
 
 /**
- * Foto do George na seção "Sobre": surge de baixo para cima ao entrar na tela,
+ * Foto do George na seção "Contato": surge de baixo para cima ao entrar na tela,
  * com moldura em gradiente, brilho de fundo e um leve movimento (parallax) na rolagem.
  */
 export function RetratoPerfil() {
@@ -27,7 +27,7 @@ export function RetratoPerfil() {
           <motion.img
             src={perfil.foto.src}
             srcSet={`${perfil.foto.srcPequena} 480w, ${perfil.foto.src} 800w`}
-            sizes="(max-width: 900px) 250px, 310px"
+            sizes="(max-width: 900px) 240px, 290px"
             alt={perfil.foto.descricao}
             width={800}
             height={1067}
