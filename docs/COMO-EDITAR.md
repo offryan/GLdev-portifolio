@@ -20,7 +20,7 @@ Dá para fazer isso direto pelo GitHub: abra o arquivo, clique no ícone de láp
 | `contato.github`    | Link do GitHub — enquanto estiver vazio (`''`), o ícone não aparece |
 | `contato.whatsapp`  | Número só com dígitos, com DDI e DDD (ex.: `'5521999999999'`)     |
 | `curriculo`         | Caminho do PDF dentro de `public/documentos`                     |
-| `foto`              | Foto da seção "Sobre" (arquivos em `public/perfil`, formato retrato 3:4) |
+| `foto`              | Foto da seção "Contato" (arquivos em `public/perfil`, formato retrato 3:4) |
 
 Para trocar o currículo, substitua o arquivo `public/documentos/curriculo-george-lucas.pdf` mantendo o mesmo nome.
 
