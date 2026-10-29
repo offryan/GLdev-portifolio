@@ -3,7 +3,6 @@ import { Revelar } from '@/componentes/interface/Revelar/Revelar';
 import { TextoRevelado } from '@/componentes/interface/TextoRevelado/TextoRevelado';
 import { TituloSecao } from '@/componentes/interface/TituloSecao/TituloSecao';
 import { perfil } from '@/conteudo/perfil';
-import { RetratoPerfil } from './RetratoPerfil';
 import styles from './Sobre.module.css';
 
 export function Sobre() {
@@ -12,13 +11,10 @@ export function Sobre() {
       <div className="container">
         <TituloSecao numero="01" rotulo="Sobre mim" titulo="Dados que viram" destaque="decisão." />
 
-        <div className={styles.conteudo}>
-          <RetratoPerfil />
-          <div className={styles.paragrafos}>
-            {perfil.resumo.map((paragrafo) => (
-              <TextoRevelado key={paragrafo} texto={paragrafo} />
-            ))}
-          </div>
+        <div className={styles.paragrafos}>
+          {perfil.resumo.map((paragrafo) => (
+            <TextoRevelado key={paragrafo} texto={paragrafo} />
+          ))}
         </div>
 
         <div className={styles.numeros}>

@@ -45,7 +45,7 @@ export const perfil: Perfil = {
   // Arquivo dentro de public/documentos
   curriculo: '/documentos/curriculo-george-lucas.pdf',
 
-  // Foto da seção "Sobre" (arquivos em public/perfil, formato retrato 3:4)
+  // Foto da seção "Contato" (arquivos em public/perfil, formato retrato 3:4)
   foto: {
     src: '/perfil/george-lucas-800.webp',
     srcPequena: '/perfil/george-lucas-480.webp',
