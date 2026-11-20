@@ -12,6 +12,7 @@ import { createRequire } from 'node:module';
 import { join } from 'node:path';
 import { perfil } from '../src/conteudo/perfil.ts';
 import { projetos } from '../src/conteudo/projetos.ts';
+import { site } from '../src/conteudo/site.ts';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require('playwright') as typeof import('playwright');
@@ -88,22 +89,22 @@ function pagina(conteudo: string) {
 const marca = `<div class="marca">${ICONE_GL}<div>gl<span>dev</span><i>.</i>com.br</div></div>`;
 
 function htmlInicial() {
-  const chips = ['Power BI', 'Python', 'SQL', 'Power Platform', 'Automação'].map((c) => `<span>${c}</span>`).join('');
+  const chips = ['Python', 'dbt', 'SQL', 'Power BI', 'Automação'].map((c) => `<span>${c}</span>`).join('');
   return pagina(`
     <div class="texto">
       ${marca}
       <div class="rotulo">Portfólio</div>
       <h1 style="font-size: 92px">${perfil.nome}</h1>
-      <p class="resumo"><span class="grad" style="font-weight:600">${perfil.cargo}.</span> ${perfil.chamada}</p>
+      <p class="resumo"><span class="grad" style="font-weight:600">${perfil.cargo}.</span> ${site.resumoPessoa}</p>
       <div class="chips">${chips}</div>
     </div>
     <div class="lado" style="position: relative"><img src="${imagem('certificacoes/pl-300.webp')}" style="position: absolute; top: 40px; right: -28px; width: 150px; transform: rotate(8deg); filter: drop-shadow(0 12px 24px rgba(0,0,0,.6)) drop-shadow(0 0 24px rgba(56,152,236,.6)); z-index: 2"><div class="cartao terminal">
-      <div class="cmd">$ python gldev.py</div>
-      <div>› API sincronizada</div>
-      <div>› SLA em dias úteis</div>
-      <div>› Siscomex + Oracle</div>
-      <div>› KPIs no Power BI</div>
-      <div class="ok">✓ -83% trabalho manual</div>
+      <div class="cmd">$ dbt build</div>
+      <div>› 90 arquivos do ONS</div>
+      <div>› 18,4 mi linhas na silver</div>
+      <div>› 61 testes aprovados</div>
+      <div>› modelo estrela na gold</div>
+      <div class="ok">✓ dashboard publicado</div>
     </div></div>`);
 }
 
