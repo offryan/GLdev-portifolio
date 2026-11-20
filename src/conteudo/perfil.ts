@@ -49,6 +49,6 @@ export const perfil: Perfil = {
   foto: {
     src: '/perfil/george-lucas-800.webp',
     srcPequena: '/perfil/george-lucas-480.webp',
-    descricao: 'Retrato de George Lucas em estúdio, de camiseta preta e fundo escuro',
+    descricao: 'Retrato de George Lucas em estúdio, de camiseta branca e fundo azul',
   },
 };

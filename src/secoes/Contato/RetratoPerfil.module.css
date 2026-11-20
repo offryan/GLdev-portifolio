@@ -50,7 +50,7 @@
   left: 0;
   width: 100%;
   /* Sobra embaixo para o parallax; o topo nunca é cortado e a cabeça aparece inteira */
-  height: 108%;
+  height: 105%;
   object-fit: cover;
   object-position: 50% 0%;
   filter: contrast(1.05) saturate(0.95);
