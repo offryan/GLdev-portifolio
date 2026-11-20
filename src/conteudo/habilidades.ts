@@ -2,14 +2,30 @@ import type { GrupoHabilidades } from '@/tipos/conteudo';
 
 /**
  * ✏️ HABILIDADES
- * Ícones disponíveis: 'dados' | 'graficos' | 'automacao' | 'apps' | 'negocios'
+ * Ícones disponíveis: 'engenharia' | 'dados' | 'graficos' | 'automacao' | 'apps' | 'negocios'
  */
 export const habilidades: GrupoHabilidades[] = [
   {
-    titulo: 'Dados & ETL',
+    titulo: 'Engenharia de Dados',
+    icone: 'engenharia',
+    descricao: 'Pipelines confiáveis, do dado bruto ao modelo pronto para análise.',
+    itens: [
+      'Pipelines ELT',
+      'Arquitetura medalhão (bronze, silver, gold)',
+      'dbt',
+      'DuckDB',
+      'Modelagem dimensional (Kimball)',
+      'Carga incremental e idempotente',
+      'Testes de qualidade de dados',
+      'GitHub Actions (CI/CD)',
+      'Parquet / CSV',
+    ],
+  },
+  {
+    titulo: 'SQL & Bancos de Dados',
     icone: 'dados',
-    descricao: 'Da extração à modelagem: dados limpos, confiáveis e prontos para análise.',
-    itens: ['SQL (MySQL, PostgreSQL, T-SQL)', 'Oracle', 'Star Schema', 'ETL / ELT', 'Pandas', 'Power Query'],
+    descricao: 'Consultas, modelagem e integração com bancos relacionais.',
+    itens: ['SQL (MySQL, PostgreSQL, T-SQL)', 'Oracle', 'Star Schema', 'Pandas', 'Power Query'],
   },
   {
     titulo: 'BI & Visualização',
@@ -30,9 +46,20 @@ export const habilidades: GrupoHabilidades[] = [
     itens: ['Power Apps (Canvas)', 'Power Apps (Model-Driven)', 'Power Automate Cloud', 'Power Automate Desktop', 'SharePoint'],
   },
   {
-    titulo: 'ERP & Negócios',
+    titulo: 'Processos & Negócio',
     icone: 'negocios',
-    descricao: 'Visão de negócio para conectar tecnologia ao resultado.',
-    itens: ['SAP Business One', 'Gestão de KPIs', 'Processos portuários e aduaneiros', 'Siscomex', 'Planejamento financeiro', 'Scrum', 'Kanban'],
+    descricao: 'Processos redesenhados antes de serem automatizados.',
+    itens: [
+      'Lean Six Sigma (DMAIC)',
+      'Mapeamento de processos',
+      'SIPOC',
+      'VSM',
+      'BPMN',
+      'Matriz esforço × impacto',
+      'Gestão de KPIs',
+      'SAP Business One',
+      'Scrum',
+      'Kanban',
+    ],
   },
 ];

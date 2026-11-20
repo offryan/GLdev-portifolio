@@ -8,7 +8,16 @@
   gap: 20px;
 }
 
-.largo {
+/* O primeiro card (área principal) ocupa a linha toda; o último ocupa duas colunas para fechar a grade */
+.destaque {
+  grid-column: 1 / -1;
+}
+
+.destaque .itens {
+  max-width: 880px;
+}
+
+.fechamento {
   grid-column: span 2;
 }
 
@@ -98,7 +107,7 @@
   .grade {
     grid-template-columns: 1fr;
   }
-  .largo {
+  .fechamento {
     grid-column: auto;
   }
   .cartao {

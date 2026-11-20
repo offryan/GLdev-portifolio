@@ -36,7 +36,7 @@ export interface Perfil {
   };
 }
 
-export type IconeHabilidade = 'dados' | 'graficos' | 'automacao' | 'apps' | 'negocios';
+export type IconeHabilidade = 'engenharia' | 'dados' | 'graficos' | 'automacao' | 'apps' | 'negocios';
 
 export interface GrupoHabilidades {
   titulo: string;
