@@ -6,11 +6,35 @@ import type { Experiencia } from '@/tipos/conteudo';
  */
 export const experiencias: Experiencia[] = [
   {
+    cargo: 'Analista de Performance e Processos',
+    empresa: 'Taesa · COE, Inteligência do CSC',
+    local: 'Rio de Janeiro, RJ',
+    periodo: 'jul/2026 — atual',
+    atual: true,
+    conquistas: [
+      {
+        titulo: 'Automação de processos',
+        texto: 'Desenvolvo e mantenho as automações do CSC com Python, SQL e Power Automate, eliminando tarefas manuais e dando agilidade às rotinas de backoffice.',
+      },
+      {
+        titulo: 'Indicadores de performance',
+        texto: 'Estruturo os indicadores do CSC de ponta a ponta, da modelagem dos dados em SQL e Power Query aos painéis em Power BI usados pela liderança.',
+      },
+      {
+        titulo: 'Inteligência de dados',
+        texto: 'Integro dados de sistemas corporativos em bases confiáveis que alimentam as automações, os indicadores e as análises da área.',
+      },
+      {
+        titulo: 'Reestruturação de processos com Lean Six Sigma',
+        texto: 'Mapeamento e redesenho dos processos de todas as áreas do CSC com DMAIC, SIPOC, VSM, Pareto e matriz de esforço × impacto, priorizando as próximas automações e indicadores.',
+      },
+    ],
+  },
+  {
     cargo: 'Analista de Planejamento Pleno',
     empresa: 'Rio Brasil Terminal',
     local: 'Rio de Janeiro, RJ',
-    periodo: '2024 — atual',
-    atual: true,
+    periodo: '2024 — jul/2026',
     conquistas: [
       {
         titulo: 'Inteligência de dados',
@@ -26,7 +50,7 @@ export const experiencias: Experiencia[] = [
       },
       {
         titulo: 'Compliance',
-        texto: 'Relatórios técnicos regulatórios automatizados que garantem a conformidade das operações portuárias.',
+        texto: 'Relatórios técnicos regulatórios automatizados que garantiram a conformidade das operações portuárias.',
       },
     ],
   },
