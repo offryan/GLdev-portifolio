@@ -1,6 +1,7 @@
 import type { Projeto } from '@/tipos/conteudo';
 
 const REPOSITORIO = 'https://github.com/glucas290/GLdev/tree/main';
+const PAINEL_ENERGIA = 'https://glucas290.github.io/energia-sin-pipeline/';
 const PAINEL_POWER_BI =
   'https://app.powerbi.com/view?r=eyJrIjoiN2M0MDBjMjEtNjU4NS00NTZhLThkM2YtYjMyM2UzMmQ2ZjljIiwidCI6ImU2OWJmYmEwLTQwZjQtNDMwMi1hZjc4LTJjNTkxYTU3ZmFmYiJ9';
 
@@ -23,12 +24,65 @@ const PAINEL_POWER_BI =
  *     { tipo: 'galeria',   imagens: [{ src: '/projetos/x/1.png', legenda: 'Tela inicial' }] }
  *     { tipo: 'codigo',    linguagem: 'Python', arquivo: '/projetos/x/script.py' }
  *     { tipo: 'simulacao', etapas: [{ nome: 'Etapa', inicio: 'Começando…', fim: 'Pronto' }] }
+ *     { tipo: 'fluxo',     etapas: [{ titulo: 'Origem', detalhe: 'Onde o dado nasce', icone: 'nuvem' }] }
+ *   Em 'site', `altura: 900` fixa a altura da janela (útil para dashboards).
+ *   Projetos com aba 'powerbi' ou 'site' entram sozinhos no filtro "Painel ao vivo".
  *   Use `rotulo: 'Nome da aba'` para trocar o nome padrão da aba.
  *
- * Todos os projetos abaixo estão em github.com/glucas290/GLdev
- * (códigos anonimizados e dados fictícios, conforme o próprio repositório).
+ * O primeiro projeto está em github.com/glucas290/energia-sin-pipeline; os demais,
+ * em github.com/glucas290/GLdev (códigos anonimizados e dados fictícios, conforme o
+ * próprio repositório).
  */
 export const projetos: Projeto[] = [
+  {
+    slug: 'energia-sin-pipeline',
+    titulo: 'Pipeline de Dados do Setor Elétrico',
+    categoria: 'Pipeline de dados',
+    ano: '2026',
+    resumo:
+      'Pipeline diário com os dados abertos do ONS: ingestão incremental, camadas bronze, silver e gold no dbt, testes de qualidade com quarentena e um dashboard interativo publicado automaticamente.',
+    subtitulo:
+      'Pipeline de ponta a ponta com os dados abertos do Operador Nacional do Sistema Elétrico: da ingestão incremental ao dashboard público, com testes de qualidade em cada etapa.',
+    problema:
+      'O ONS publica diariamente os dados do sistema elétrico brasileiro em um bucket aberto: consumo, geração por usina hora a hora, energia trocada entre regiões e capacidade instalada. São dados ricos, mas não estão prontos para análise: arquivos antigos são regravados meses depois, os tipos mudam de um ano para outro, e em 2026 o ONS mudou sem aviso a convenção de sentido do intercâmbio e o identificador de 117 usinas. Construí um pipeline diário que trata tudo isso automaticamente, com ferramentas gratuitas e sem servidor.',
+    solucao: [
+      'Ingestão incremental e idempotente: compara o ETag de cada arquivo com um manifesto e baixa só o que é novo ou foi regravado.',
+      'Camada silver no dbt com schema declarado e quarentena: linha inválida é registrada com o motivo, em vez de quebrar o pipeline ou sumir.',
+      'Modelo estrela na gold, com 61 testes de qualidade a cada execução.',
+      'Dashboard interativo, com filtros e filtro cruzado, republicado a cada execução.',
+    ],
+    impacto:
+      'Na primeira carga, o pipeline processou 18,4 milhões de linhas. Uma execução diária sem arquivo novo leva cerca de 10 segundos. Nesse processo, o pipeline pegou um problema que passaria despercebido num relatório comum: 64% da geração solar vem de telhados e pequenas usinas, que não constam no cadastro de capacidade. Sem esse tratamento, o fator de capacidade da solar daria 63%, um valor impossível; com ele, fica em 22%.',
+    fluxo: [
+      { titulo: 'Bucket do ONS', detalhe: 'Dados abertos em CSV, licença CC-BY 4.0', icone: 'nuvem' },
+      { titulo: 'Ingestão Python', detalhe: 'Manifesto de ETags e download atômico', icone: 'arquivo' },
+      { titulo: 'Silver (dbt)', detalhe: 'Tipagem, regras e quarentena', icone: 'regras' },
+      { titulo: 'Gold (dbt)', detalhe: 'Fatos e dimensões, testados', icone: 'banco' },
+      { titulo: 'GitHub Actions', detalhe: 'Execução diária e publicação', icone: 'robo' },
+    ],
+    tecnologias: ['Python', 'dbt', 'DuckDB', 'SQL', 'GitHub Actions', 'pytest', 'GitHub Pages', 'ECharts'],
+    resultados: [
+      { valor: '18,4 mi', rotulo: 'linhas processadas na primeira carga' },
+      { valor: '61', rotulo: 'testes de qualidade a cada execução' },
+      { valor: '~10 s', rotulo: 'execução diária sem arquivo novo' },
+    ],
+    cores: ['#facc15', '#22d3ee'],
+    links: { aoVivo: PAINEL_ENERGIA, repositorio: 'https://github.com/glucas290/energia-sin-pipeline' },
+    visualizacoes: [
+      { tipo: 'site', rotulo: 'Painel ao vivo', url: PAINEL_ENERGIA, altura: 900 },
+      {
+        tipo: 'fluxo',
+        etapas: [
+          { titulo: 'Bucket do ONS', detalhe: 'Bucket público na AWS S3', icone: 'nuvem' },
+          { titulo: 'Bronze', detalhe: 'CSVs como publicados, baixados só quando mudam', icone: 'arquivo' },
+          { titulo: 'Silver (dbt)', detalhe: 'Tipagem, regras de qualidade e quarentena', icone: 'regras' },
+          { titulo: 'Gold (dbt)', detalhe: 'Modelo estrela com 4 fatos e 4 dimensões', icone: 'banco' },
+          { titulo: 'Dashboard', detalhe: 'Publicado no GitHub Pages', icone: 'painel' },
+          { titulo: 'GitHub Actions', detalhe: 'Orquestra tudo diariamente', icone: 'robo' },
+        ],
+      },
+    ],
+  },
   {
     slug: 'kpi-diario-armazem',
     titulo: 'KPI Diário – Armazém',

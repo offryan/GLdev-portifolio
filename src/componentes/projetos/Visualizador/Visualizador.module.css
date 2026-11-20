@@ -46,6 +46,17 @@
   background: #0a0b16;
 }
 
+.arquitetura {
+  padding: 40px 32px;
+  background: radial-gradient(ellipse at top left, rgba(139, 92, 246, 0.12), transparent 55%), #0a0b16;
+}
+
+@media (max-width: 640px) {
+  .arquitetura {
+    padding: 24px 16px;
+  }
+}
+
 @media (max-width: 640px) {
   .incorporado {
     aspect-ratio: 4 / 5;

@@ -90,14 +90,16 @@ export interface EtapaSimulacao {
  * - galeria:   lista de imagens (prints)
  * - codigo:    arquivo de código guardado em public/projetos
  * - simulacao: robô executando as etapas, passo a passo
+ * - fluxo:     diagrama da arquitetura (as mesmas caixas do "Como funciona")
  */
 export type Visualizacao = { rotulo?: string } & (
-  | { tipo: 'site'; url: string }
+  | { tipo: 'site'; url: string; /** Altura fixa da janela, em px (opcional). */ altura?: number }
   | { tipo: 'powerbi'; url: string }
   | { tipo: 'video'; url: string }
   | { tipo: 'galeria'; imagens: { src: string; legenda: string }[] }
   | { tipo: 'codigo'; linguagem: LinguagemCodigo; arquivo: string }
   | { tipo: 'simulacao'; etapas: EtapaSimulacao[] }
+  | { tipo: 'fluxo'; etapas: EtapaFluxo[] }
 );
 
 /** Ícones disponíveis para as caixas do diagrama de fluxo. */
@@ -127,6 +129,8 @@ export interface Projeto {
   categoria: string;
   ano?: string;
   resumo: string;
+  /** Texto abaixo do título na página do projeto (opcional; sem ele, usa o resumo). */
+  subtitulo?: string;
   /** Estudo de caso: o problema, como foi resolvido e o que mudou. */
   problema: string;
   solucao: string[];
