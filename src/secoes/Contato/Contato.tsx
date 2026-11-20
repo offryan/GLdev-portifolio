@@ -30,11 +30,11 @@ export function Contato() {
           <div className={styles.conteudo}>
             <span className={styles.rotulo}>06 — Contato</span>
             <h2 className={styles.titulo}>
-              Vamos transformar seus dados em <span className="texto-gradiente">resultado?</span>
+              Vamos colocar seus dados para <span className="texto-gradiente">trabalhar?</span>
             </h2>
             <p className={styles.texto}>
-              Tem um processo manual demais, um dashboard que ninguém entende ou dados espalhados por todo lado? Me
-              conta — eu ajudo a resolver.
+              Dados espalhados por todo lado, um processo manual demais ou um dashboard que ninguém confia? Eu construo
+              o caminho completo, do pipeline ao painel. Me conta o desafio.
             </p>
 
             <div className={styles.acoes}>

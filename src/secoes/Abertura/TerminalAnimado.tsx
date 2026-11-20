@@ -2,12 +2,14 @@ import { motion } from 'framer-motion';
 import styles from './TerminalAnimado.module.css';
 
 const LINHAS = [
-  { texto: '$ python pipeline_vistorias.py', tipo: 'comando' },
-  { texto: '› solicitações sincronizadas via API', tipo: 'ok' },
-  { texto: '› SLA calculado em dias úteis', tipo: 'ok' },
-  { texto: '› Siscomex + Oracle consultados', tipo: 'ok' },
-  { texto: '› KPI Diário atualizado no Power BI', tipo: 'ok' },
-  { texto: '✓ trabalho manual reduzido em 83%', tipo: 'sucesso' },
+  { texto: '$ python -m ingestao.ingerir', tipo: 'comando' },
+  { texto: '› 90 arquivos checados no ONS', tipo: 'ok' },
+  { texto: '› só baixa o que mudou (ETag)', tipo: 'ok' },
+  { texto: '$ dbt build', tipo: 'comando' },
+  { texto: '› 18,4 mi linhas na silver', tipo: 'ok' },
+  { texto: '› 61 testes de qualidade ok', tipo: 'ok' },
+  { texto: '› modelo estrela na gold', tipo: 'ok' },
+  { texto: '✓ dashboard no GitHub Pages', tipo: 'sucesso' },
 ] as const;
 
 const BARRAS = [72, 88, 80, 84, 78, 86, 90, 94];
@@ -20,7 +22,7 @@ export function TerminalAnimado() {
         <span className={styles.bolinha} />
         <span className={styles.bolinha} />
         <span className={styles.bolinha} />
-        <span className={styles.nomeArquivo}>~/gldev/pipeline.py</span>
+        <span className={styles.nomeArquivo}>~/gldev/energia-sin-pipeline</span>
       </div>
 
       <div className={styles.corpo}>
@@ -46,8 +48,8 @@ export function TerminalAnimado() {
 
       <div className={styles.grafico}>
         <div className={styles.legenda}>
-          <span>Conferência no prazo</span>
-          <strong>86,2%</strong>
+          <span>Pipeline diário</span>
+          <strong>18,4 mi linhas</strong>
         </div>
         <div className={styles.barras}>
           {BARRAS.map((altura, indice) => (

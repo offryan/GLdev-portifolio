@@ -3,6 +3,7 @@ import { ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react';
 import { useState } from 'react';
 import type { Projeto, Visualizacao } from '@/tipos/conteudo';
 import { DETALHES_VISUALIZACAO, rotuloVisualizacao } from '@/utilitarios/visualizacao';
+import { DiagramaFluxo } from '../DiagramaFluxo/DiagramaFluxo';
 import { JanelaNavegador } from '../JanelaNavegador/JanelaNavegador';
 import { Simulacao } from '../Simulacao/Simulacao';
 import { VisualizadorCodigo } from '../VisualizadorCodigo/VisualizadorCodigo';
@@ -59,6 +60,7 @@ export function Visualizador({ projeto }: VisualizadorProps) {
 function ConteudoVisualizacao({ visualizacao, titulo }: { visualizacao: Visualizacao; titulo: string }) {
   switch (visualizacao.tipo) {
     case 'site':
+      return <Incorporado url={visualizacao.url} titulo={titulo} altura={visualizacao.altura} />;
     case 'powerbi':
       return <Incorporado url={visualizacao.url} titulo={titulo} />;
     case 'video':
@@ -69,6 +71,12 @@ function ConteudoVisualizacao({ visualizacao, titulo }: { visualizacao: Visualiz
       return <VisualizadorCodigo arquivo={visualizacao.arquivo} linguagem={visualizacao.linguagem} />;
     case 'simulacao':
       return <Simulacao titulo={titulo} etapas={visualizacao.etapas} />;
+    case 'fluxo':
+      return (
+        <div className={styles.arquitetura}>
+          <DiagramaFluxo etapas={visualizacao.etapas} />
+        </div>
+      );
   }
 }
 
@@ -78,11 +86,11 @@ function urlVideo(url: string) {
   return id ? `https://www.youtube-nocookie.com/embed/${id}` : url;
 }
 
-function Incorporado({ url, titulo }: { url: string; titulo: string }) {
+function Incorporado({ url, titulo, altura }: { url: string; titulo: string; altura?: number }) {
   const [carregou, setCarregou] = useState(false);
   return (
     <>
-      <div className={styles.incorporado}>
+      <div className={styles.incorporado} style={altura ? { aspectRatio: 'auto', height: altura } : undefined}>
         {!carregou && <div className={styles.carregando}>Carregando…</div>}
         <iframe
           src={url}

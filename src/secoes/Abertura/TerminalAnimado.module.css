@@ -71,6 +71,10 @@
   margin-bottom: 6px;
 }
 
+.comando:not(:first-child) {
+  margin-top: 8px;
+}
+
 .sucesso {
   margin-top: 6px;
   color: var(--cor-verde);

@@ -1,4 +1,4 @@
-import { Bot, Code2, Images, MonitorPlay, PieChart, PlayCircle, type LucideIcon } from 'lucide-react';
+import { Bot, Code2, Images, MonitorPlay, Network, PieChart, PlayCircle, type LucideIcon } from 'lucide-react';
 import type { Visualizacao } from '@/tipos/conteudo';
 
 /** Nome e ícone exibidos para cada forma de visualizar um projeto. */
@@ -9,6 +9,7 @@ export const DETALHES_VISUALIZACAO: Record<Visualizacao['tipo'], { rotulo: strin
   galeria: { rotulo: 'Capturas de tela', icone: Images },
   codigo: { rotulo: 'Código', icone: Code2 },
   simulacao: { rotulo: 'Simulação', icone: Bot },
+  fluxo: { rotulo: 'Arquitetura', icone: Network },
 };
 
 export function rotuloVisualizacao(visualizacao: Visualizacao) {

@@ -1,4 +1,4 @@
-import { BarChart3, Boxes, Briefcase, Database, Workflow, type LucideIcon } from 'lucide-react';
+import { BarChart3, Boxes, Briefcase, Database, Layers, Workflow, type LucideIcon } from 'lucide-react';
 import type { MouseEvent } from 'react';
 import { Revelar } from '@/componentes/interface/Revelar/Revelar';
 import { TituloSecao } from '@/componentes/interface/TituloSecao/TituloSecao';
@@ -7,6 +7,7 @@ import type { IconeHabilidade } from '@/tipos/conteudo';
 import styles from './Habilidades.module.css';
 
 const ICONES: Record<IconeHabilidade, LucideIcon> = {
+  engenharia: Layers,
   dados: Database,
   graficos: BarChart3,
   automacao: Workflow,
@@ -30,14 +31,20 @@ export function Habilidades() {
           rotulo="Habilidades"
           titulo="Ferramentas do"
           destaque="dia a dia."
-          subtitulo="Do banco de dados ao dashboard — e tudo o que pode ser automatizado no caminho."
+          subtitulo="Do pipeline ao dashboard — e tudo o que pode ser automatizado no caminho."
         />
 
         <div className={styles.grade}>
           {habilidades.map((grupo, indice) => {
             const Icone = ICONES[grupo.icone];
             return (
-              <Revelar key={grupo.titulo} atraso={(indice % 3) * 0.1} className={indice === 0 ? styles.largo : undefined}>
+              <Revelar
+                key={grupo.titulo}
+                atraso={(indice % 3) * 0.1}
+                className={
+                  indice === 0 ? styles.destaque : indice === habilidades.length - 1 ? styles.fechamento : undefined
+                }
+              >
                 <article className={styles.cartao} onMouseMove={moverLuz}>
                   <span className={styles.icone}>
                     <Icone size={22} />

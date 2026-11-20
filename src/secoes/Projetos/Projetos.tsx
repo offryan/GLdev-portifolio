@@ -3,14 +3,30 @@ import { useMemo, useState } from 'react';
 import { CartaoProjeto } from '@/componentes/projetos/CartaoProjeto/CartaoProjeto';
 import { TituloSecao } from '@/componentes/interface/TituloSecao/TituloSecao';
 import { projetos } from '@/conteudo/projetos';
+import type { Projeto } from '@/tipos/conteudo';
 import styles from './Projetos.module.css';
 
 const TODOS = 'Todos';
+const AO_VIVO = 'Painel ao vivo';
+
+/** Projetos com uma aba que abre o painel ou o site publicado. */
+function temPainelAoVivo(projeto: Projeto) {
+  return projeto.visualizacoes.some((v) => v.tipo === 'powerbi' || v.tipo === 'site');
+}
+
+function filtrar(filtro: string) {
+  if (filtro === TODOS) return projetos;
+  if (filtro === AO_VIVO) return projetos.filter(temPainelAoVivo);
+  return projetos.filter((p) => p.categoria === filtro);
+}
 
 export function Projetos() {
   const [filtro, setFiltro] = useState(TODOS);
-  const categorias = useMemo(() => [TODOS, ...new Set(projetos.map((p) => p.categoria))], []);
-  const visiveis = filtro === TODOS ? projetos : projetos.filter((p) => p.categoria === filtro);
+  const categorias = useMemo(
+    () => [TODOS, ...(projetos.some(temPainelAoVivo) ? [AO_VIVO] : []), ...new Set(projetos.map((p) => p.categoria))],
+    [],
+  );
+  const visiveis = filtrar(filtro);
 
   return (
     <section id="projetos" className={styles.projetos}>
@@ -23,7 +39,7 @@ export function Projetos() {
           subtitulo="Painéis ao vivo, simulações dos robôs e o código de cada projeto — clique e explore."
         />
 
-        <div className={styles.filtros} role="tablist" aria-label="Filtrar projetos por categoria">
+        <div className={styles.filtros} role="tablist" aria-label="Filtrar projetos">
           {categorias.map((categoria) => (
             <button
               key={categoria}

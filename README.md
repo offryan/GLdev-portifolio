@@ -31,7 +31,8 @@ Os projetos vêm do repositório [glucas290/GLdev](https://github.com/glucas290/
 - **Fundo vivo:** auroras coloridas animadas pela placa de vídeo e uma constelação de pontos que reage ao mouse. As cores mudam conforme a rolagem.
 - **Conteúdo que aparece com o scroll:** blocos surgem com desfoque, as palavras do "Sobre" acendem uma a uma, a linha do tempo se preenche e os números contam até o valor.
 - **Projetos para testar, não só para ler:** cada projeto abre em abas dentro de uma "janela de navegador":
-  - **Power BI ao vivo** (publicado na web) e capturas de tela
+  - **Dashboards ao vivo**: o pipeline de dados do setor elétrico (GitHub Pages) e o painel Power BI do armazém
+  - **Arquitetura** do pipeline em diagrama e capturas de tela
   - **Simulação dos robôs**: etapas executando com log em tempo real
   - **Código real** com destaque de sintaxe (Python, SQL, DAX e Power Query M)
 - **Estudo de caso:** problema → solução → resultado, com diagrama "Como funciona" em que os dados percorrem o fluxo.

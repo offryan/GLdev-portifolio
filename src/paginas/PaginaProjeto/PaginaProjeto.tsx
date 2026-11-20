@@ -66,7 +66,7 @@ export function PaginaProjeto() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.25, ease: suave }}
           >
-            {projeto.resumo}
+            {projeto.subtitulo ?? projeto.resumo}
           </motion.p>
         </header>
 
@@ -146,7 +146,7 @@ export function PaginaProjeto() {
                   <div className={styles.links}>
                     {projeto.links.aoVivo && (
                       <Botao href={projeto.links.aoVivo} externo icone={<ExternalLink size={16} />}>
-                        Abrir em nova aba
+                        Abrir dashboard
                       </Botao>
                     )}
                     {projeto.links.repositorio && (
