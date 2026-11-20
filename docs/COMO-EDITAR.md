@@ -79,11 +79,16 @@ O nome da aba pode ser trocado com `rotulo: 'Nome da aba'`.
 | Tipo        | Quando usar                                   | Exemplo |
 | ----------- | --------------------------------------------- | ------- |
 | `powerbi`   | Relatório do Power BI ("Publicar na Web")     | `{ tipo: 'powerbi', url: 'https://app.powerbi.com/view?r=...' }` |
-| `site`      | Projeto publicado na internet                 | `{ tipo: 'site', url: 'https://...' }` |
+| `site`      | Projeto ou dashboard publicado na internet    | `{ tipo: 'site', url: 'https://...', altura: 900 }` (`altura` é opcional) |
 | `video`     | Vídeo no YouTube mostrando o projeto          | `{ tipo: 'video', url: 'https://www.youtube.com/watch?v=...' }` |
 | `galeria`   | Prints de telas                               | `{ tipo: 'galeria', imagens: [{ src: '/projetos/x/1.png', legenda: 'Tela inicial' }] }` |
 | `codigo`    | Mostrar um arquivo de código                  | `{ tipo: 'codigo', linguagem: 'Python', arquivo: '/projetos/x/script.py' }` |
 | `simulacao` | Mostrar um robô executando passo a passo      | `{ tipo: 'simulacao', etapas: [{ nome: 'Ler planilha', inicio: 'Abrindo…', fim: 'Planilha lida' }] }` |
+| `fluxo`     | Diagrama da arquitetura (aba "Arquitetura")   | `{ tipo: 'fluxo', etapas: [{ titulo: 'Origem', detalhe: 'Onde o dado nasce', icone: 'nuvem' }] }` |
+
+**Filtro "Painel ao vivo":** projetos com uma aba `powerbi` ou `site` entram nele sozinhos.
+
+**Subtítulo da página:** por padrão, a página do projeto repete o `resumo` do card. Para um texto diferente, preencha `subtitulo`.
 
 **Código:** copie o arquivo para `public/projetos/<slug-do-projeto>/` e aponte `arquivo` para ele.
 Linguagens com cores: `'Python'`, `'SQL'`, `'DAX'`, `'Power Query (M)'`, `'JavaScript'` (ou `'Texto'` sem cores).
@@ -112,7 +117,8 @@ npm run imagens
 ## 3. Habilidades — `habilidades.ts`
 
 Cada cartão tem `titulo`, `descricao`, a lista `itens` e um `icone`, que pode ser:
-`'dados'`, `'graficos'`, `'automacao'`, `'apps'` ou `'negocios'`.
+`'engenharia'`, `'dados'`, `'graficos'`, `'automacao'`, `'apps'` ou `'negocios'`.
+O primeiro card aparece em destaque, na largura toda.
 
 ## 4. Experiência — `experiencias.ts`
 
@@ -128,6 +134,7 @@ A mais recente primeiro. Use `atual: true` no emprego atual (o marcador fica ver
 ## Endereço do site e textos para o Google — `site.ts`
 
 `url` (endereço oficial), `titulo` e `descricao` aparecem no Google e nas prévias do link.
+`resumoPessoa` (frase curta) e `empresaAtual` vão para os dados que o Google lê sobre o George.
 O mapa do site (`sitemap.xml`) e as páginas com prévia de cada projeto são gerados sozinhos no `npm run build`.
 
 ## Mudando cores
