@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="public/og/gldev.jpg" alt="gldev — George Lucas, Analista de Dados & Especialista em Automação" width="100%" />
+<img src="public/og/gldev.jpg" alt="gldev — George Lucas, Analista & Engenheiro de Dados" width="100%" />
 
 # gldev — Portfólio de George Lucas
 
@@ -46,7 +46,7 @@ Os projetos vêm do repositório [glucas290/GLdev](https://github.com/glucas290/
     <td width="50%"><img src="docs/img/simulacao.jpg" alt="Simulação do robô executando etapas com log" /></td>
   </tr>
   <tr>
-    <td align="center"><sub>Projetos com filtro por categoria</sub></td>
+    <td align="center"><sub>Projetos com filtro por categoria e por painel ao vivo</sub></td>
     <td align="center"><sub>Simulação passo a passo de um robô</sub></td>
   </tr>
   <tr>
@@ -56,6 +56,14 @@ Os projetos vêm do repositório [glucas290/GLdev](https://github.com/glucas290/
   <tr>
     <td align="center"><sub>Estudo de caso com diagrama animado</sub></td>
     <td align="center"><sub>Versão para celular</sub></td>
+  </tr>
+  <tr>
+    <td width="50%"><img src="docs/img/arquitetura.jpg" alt="Aba Arquitetura do pipeline de dados do setor elétrico" /></td>
+    <td width="50%"><img src="docs/img/habilidades.jpg" alt="Habilidades com Engenharia de Dados em destaque" /></td>
+  </tr>
+  <tr>
+    <td align="center"><sub>Arquitetura do pipeline do setor elétrico</sub></td>
+    <td align="center"><sub>Engenharia de Dados em destaque nas habilidades</sub></td>
   </tr>
   <tr>
     <td width="50%"><img src="docs/img/certificacao.jpg" alt="Cartão de destaque da certificação Microsoft PL-300" /></td>
