@@ -67,6 +67,7 @@ export const projetos: Projeto[] = [
       { valor: '~10 s', rotulo: 'execução diária sem arquivo novo' },
     ],
     cores: ['#facc15', '#22d3ee'],
+    capa: '/projetos/energia-sin-pipeline/capa.webp',
     links: { aoVivo: PAINEL_ENERGIA, repositorio: 'https://github.com/glucas290/energia-sin-pipeline' },
     visualizacoes: [
       { tipo: 'site', rotulo: 'Painel ao vivo', url: PAINEL_ENERGIA, altura: 900 },

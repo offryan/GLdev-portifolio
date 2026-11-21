@@ -26,7 +26,7 @@ export const perfil: Perfil = {
   // Cada item vira um parágrafo da seção "Sobre"
   resumo: [
     'Sou analista e engenheiro de dados. Começo onde o dado nasce, em APIs, ERPs, bancos Oracle e arquivos públicos, e cuido do caminho inteiro até a decisão: ingestão incremental, modelagem dimensional, testes de qualidade e o dashboard no final.',
-    'Hoje sou Analista de Performance e Processos no COE da Taesa, a área de inteligência do CSC, onde respondo por automações e indicadores e atuo na reestruturação dos processos de todas as áreas do CSC com Lean Six Sigma. Na engenharia, construo pipelines com Python, SQL, dbt e DuckDB, orquestrados com GitHub Actions; na análise, entrego painéis em Power BI e automações que reduzem o trabalho manual e dão à liderança visibilidade em cenários de alta complexidade.',
+    'Na engenharia, construo pipelines com Python, SQL, dbt e DuckDB, orquestrados com GitHub Actions; na análise, entrego painéis em Power BI e automações que reduzem o trabalho manual e dão à liderança visibilidade em cenários de alta complexidade.',
   ],
 
   // Números de destaque (contam até o valor quando aparecem na tela)
